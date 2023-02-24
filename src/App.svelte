@@ -1,48 +1,103 @@
 <script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  import ListList from './lib/ListList.svelte'
+  import TaskList from './lib/TaskList.svelte'
+  import svelteLogo from './assets/images/svelte-logo.svg'
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
+<header class="app-header">
+  <div class="container">
+    <h1 class="app-title">My To-Do List</h1>
   </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
+</header>
+<main class="app-main">
+  <div class="container">
+    <ListList />
+    <TaskList />
   </div>
-
-  <p>
-    Check out <a
-      href="https://github.com/sveltejs/kit#readme"
-      target="_blank"
-      rel="noreferrer">SvelteKit</a
-    >, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">Click on the Vite and Svelte logos to learn more</p>
 </main>
+<footer class="app-footer">
+  <div class="container">
+    <a
+      href="https://github.com/rodrigodagostino/svelte-todo-app"
+      target="_blank"
+      rel="noreferrer"
+    >
+      Made with <img src={svelteLogo} alt="Svelte.js logo" /> by Rodrigo D’Agostino
+    </a>
+  </div>
+</footer>
 
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
+<style lang="scss">
+  .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 3rem 2rem;
+    align-items: start;
+    max-width: 52rem;
+    padding: 1.25rem;
+    margin: 0 auto;
+    position: relative;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+
+  .app-header {
+    .container {
+      display: block;
+    }
+
+    .app-title {
+      margin-bottom: -0.5em;
+      font-size: clamp(2rem, 10vw, 5.8125rem);
+      font-weight: 900;
+      color: var(--color-main--dark);
+      text-align: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+      opacity: 0.4;
+    }
   }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
+
+  .app-main {
+    .container {
+      flex-direction: column;
+    }
   }
-  .read-the-docs {
-    color: #888;
+
+  .app-footer {
+    font-size: 0.875rem;
+    text-align: center;
+    margin-top: auto;
+
+    .container {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+
+    a {
+      color: var(--gray-150);
+      text-decoration: none;
+      transition: color 0.24s;
+
+      &:focus,
+      &:hover {
+        color: var(--white-rich);
+      }
+    }
+
+    img {
+      height: 1.25rem;
+      width: auto;
+      vertical-align: middle;
+      margin: 0 0.25rem;
+      display: inline-block;
+    }
+  }
+
+  @media screen and (min-width: 48em) {
+    .app-main {
+      .container {
+        grid-template-columns: 18rem auto;
+      }
+    }
   }
 </style>
