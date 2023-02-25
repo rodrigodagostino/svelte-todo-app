@@ -7,7 +7,9 @@
 </script>
 
 <script lang="ts">
+  import { fade, fly } from 'svelte/transition'
   import { editTask, removeTask, toDos, toggleTaskStatus } from '../store'
+
   import Button from './Button.svelte'
   import Icon from './Icon.svelte'
 
@@ -52,7 +54,12 @@
   }
 </script>
 
-<li class="task" class:task--done={task.isDone}>
+<li
+  class="task"
+  class:task--done={task.isDone}
+  in:fly={{ y: 32, duration: 320 }}
+  out:fade={{ duration: 320 }}
+>
   <span class="task__handle">
     <Icon icon="grip-dots-vertical" />
   </span>
@@ -77,11 +84,13 @@
       <Button
         variant="neutral"
         icon="check"
+        class="task__button-confirm"
         on:click={() => handleTaskChanges('confirm')}
       />
       <Button
         variant="neutral"
         icon="times"
+        class="task__button-cancel"
         on:click={() => handleTaskChanges('cancel')}
       />
     </div>
@@ -103,6 +112,13 @@
     align-items: center;
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--gray-200);
+
+    &--done {
+      .task__label {
+        text-decoration: line-through;
+        opacity: 0.5;
+      }
+    }
 
     &__handle {
       display: flex;
@@ -150,10 +166,17 @@
       display: flex;
     }
 
-    &--done {
-      .task__label {
-        text-decoration: line-through;
-        opacity: 0.5;
+    :global(.task__button-confirm) {
+      &:focus,
+      &:hover {
+        color: var(--green-500);
+      }
+    }
+
+    :global(.task__button-cancel) {
+      &:focus,
+      &:hover {
+        color: var(--red-500);
       }
     }
   }

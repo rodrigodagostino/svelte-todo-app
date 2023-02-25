@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { fade, fly } from 'svelte/transition'
   import { addTask, editList, removeList, toDos } from '../store'
+
   import Button from './Button.svelte'
   import Task from './Task.svelte'
 
@@ -59,7 +61,11 @@
 </script>
 
 {#key selectedList.id}
-  <section class="tasks">
+  <section
+    class="tasks"
+    in:fly={{ y: 32, duration: 320, delay: 320 }}
+    out:fade={{ duration: 320 }}
+  >
     <header class="tasks__header">
       <div class="tasks__header-top">
         <h2
@@ -122,6 +128,8 @@
 
 <style lang="scss">
   .tasks {
+    grid-column: 1;
+    grid-row: 2;
     background-color: var(--white);
     max-width: 100%;
     overflow: hidden;
@@ -183,6 +191,13 @@
       &:focus {
         border-bottom-color: var(--color-main);
       }
+    }
+  }
+
+  @media screen and (min-width: 48em) {
+    .tasks {
+      grid-column: 2;
+      grid-row: 1;
     }
   }
 </style>

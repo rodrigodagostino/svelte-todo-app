@@ -7,7 +7,9 @@
 </script>
 
 <script lang="ts">
+  import { fly } from 'svelte/transition'
   import { addList, setSelectedList, toDos } from '../store'
+
   import Button from './Button.svelte'
   import Icon from './Icon.svelte'
   import type { Task } from './Task.svelte'
@@ -24,7 +26,7 @@
   }
 </script>
 
-<section class="lists">
+<section class="lists" in:fly={{ y: 32, duration: 320, delay: 320 }}>
   <div class="lists__content">
     {#each $toDos.lists as list}
       <li
