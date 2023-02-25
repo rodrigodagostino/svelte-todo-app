@@ -1,18 +1,25 @@
+<script lang="ts" context="module">
+  export interface List {
+    id: number
+    title: string
+    tasks: Task[]
+  }
+</script>
+
 <script lang="ts">
   import { fade, fly } from 'svelte/transition'
-  import { addTask, editList, removeList, toDos } from '../store'
+  import { addTask, editList, removeList } from '../store'
 
   import Button from './Button.svelte'
   import Task from './Task.svelte'
 
-  $: selectedList = $toDos.selectedListId
-    ? $toDos.lists.filter((list) => list.id === $toDos.selectedListId)[0]
-    : null
+  export let list
+
   let isListBeingEdited = false
   let remainingTasks: string = null
   $: {
     let remaining = 0
-    for (const task of selectedList.tasks) {
+    for (const task of list.tasks) {
       if (!task.isDone) remaining++
     }
     remainingTasks = `${remaining} task${remaining !== 1 ? 's' : ''} remaining`
@@ -25,7 +32,7 @@
   const handleListChanges = (action: 'confirm' | 'cancel') => {
     isListBeingEdited = false
     action === 'confirm'
-      ? editList(selectedList.id, title.textContent)
+      ? editList(list.id, title.textContent)
       : (title.textContent = titlePrevContent)
     title.removeAttribute('contenteditable')
   }
@@ -50,7 +57,7 @@
 
   const handleAddTask = () => {
     if (taskNewTitle !== '') {
-      addTask(selectedList.id, {
+      addTask(list.id, {
         id: new Date().getTime(),
         title: taskNewTitle,
         isDone: false,
@@ -60,74 +67,66 @@
   }
 </script>
 
-{#key selectedList.id}
-  <section
-    class="tasks"
-    in:fly={{ y: 32, duration: 320, delay: 320 }}
-    out:fade={{ duration: 320 }}
-  >
-    <header class="tasks__header">
-      <div class="tasks__header-top">
-        <h2
-          bind:this={title}
-          class="tasks__title"
-          on:keydown={(event) => handleOnKeydownListChanges(event)}
-        >
-          {selectedList.title}
-        </h2>
-        {#if isListBeingEdited}
-          <div class="tasks__actions">
-            <Button
-              variant="neutral"
-              icon="check"
-              on:click={() => handleListChanges('confirm')}
-            />
-            <Button
-              variant="neutral"
-              icon="times"
-              on:click={() => handleListChanges('cancel')}
-            />
-          </div>
-        {:else}
-          <div class="tasks__actions">
-            <Button variant="neutral" icon="pen" on:click={editListTitle} />
-            <Button
-              variant="neutral"
-              icon="trash-can"
-              on:click={() => removeList(selectedList.id)}
-            />
-          </div>
-        {/if}
-      </div>
-      {#if selectedList.tasks.length}
-        <div class="tasks__header-bottom">
-          <p class="tasks__subhead">
-            {remainingTasks}
-          </p>
+<section
+  class="list"
+  in:fly={{ y: 32, duration: 320, delay: 320 }}
+  out:fade={{ duration: 320 }}
+>
+  <header class="list__header">
+    <div class="list__header-top">
+      <h2
+        bind:this={title}
+        class="list__title"
+        on:keydown={(event) => handleOnKeydownListChanges(event)}
+      >
+        {list.title}
+      </h2>
+      {#if isListBeingEdited}
+        <div class="list__actions">
+          <Button
+            variant="neutral"
+            icon="check"
+            on:click={() => handleListChanges('confirm')}
+          />
+          <Button
+            variant="neutral"
+            icon="times"
+            on:click={() => handleListChanges('cancel')}
+          />
+        </div>
+      {:else}
+        <div class="list__actions">
+          <Button variant="neutral" icon="pen" on:click={editListTitle} />
+          <Button
+            variant="neutral"
+            icon="trash-can"
+            on:click={() => removeList(list.id)}
+          />
         </div>
       {/if}
-    </header>
-
-    <div class="tasks__content">
-      {#if selectedList}
-        {#each selectedList.tasks as task}
-          <Task {task} />
-        {/each}
-      {/if}
-      <form class="tasks__add-form" on:submit|preventDefault={handleAddTask}>
-        <input
-          type="text"
-          class="tasks__add-form-input"
-          bind:value={taskNewTitle}
-        />
-        <Button variant="neutral" type="submit" icon="plus" />
-      </form>
     </div>
-  </section>
-{/key}
+    {#if list.tasks.length}
+      <div class="list__header-bottom">
+        <p class="list__subhead">
+          {remainingTasks}
+        </p>
+      </div>
+    {/if}
+  </header>
+
+  <div class="list__content">
+    {#each list.tasks as task}
+      <Task {task} />
+    {/each}
+    <form class="list__form" on:submit|preventDefault={handleAddTask}>
+      <input type="text" class="list__form-input" bind:value={taskNewTitle} />
+      <Button variant="neutral" type="submit" icon="plus" />
+    </form>
+  </div>
+</section>
 
 <style lang="scss">
-  .tasks {
+  .list {
     grid-column: 1;
     grid-row: 2;
     background-color: var(--white);
@@ -172,13 +171,13 @@
       padding: 1.5rem 1.5rem 2rem;
     }
 
-    &__add-form {
+    &__form {
       display: flex;
       gap: 0.25rem;
       margin-top: 1rem;
     }
 
-    &__add-form-input {
+    &__form-input {
       flex: 1;
       font-size: 1.25rem;
       background-color: transparent;
@@ -195,7 +194,7 @@
   }
 
   @media screen and (min-width: 48em) {
-    .tasks {
+    .list {
       grid-column: 2;
       grid-row: 1;
     }

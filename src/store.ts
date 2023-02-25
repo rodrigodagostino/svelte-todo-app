@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import type { List } from './lib/Lists.svelte'
+import type { List } from './lib/List.svelte'
 
 interface ToDos {
   lists: List[]
@@ -19,19 +19,19 @@ export const toDos = writable<ToDos>({
     : null,
 })
 
+export const setSelectedList = (listId) => {
+  toDos.update((currData) => ({
+    ...currData,
+    selectedListId: listId || null,
+  }))
+}
+
 const setLists = (value) => {
   toDos.update((currData) => ({
     ...currData,
     lists: value,
   }))
   localStorage.setItem('todos', JSON.stringify(value))
-}
-
-export const setSelectedList = (listId) => {
-  toDos.update((currData) => ({
-    ...currData,
-    selectedListId: listId || null,
-  }))
 }
 
 export const addList = (newList) => {
