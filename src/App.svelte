@@ -1,7 +1,8 @@
 <script lang="ts">
-  import ListList from './lib/ListList.svelte'
-  import TaskList from './lib/TaskList.svelte'
+  import Lists from './lib/Lists.svelte'
+  import Tasks from './lib/Tasks.svelte'
   import svelteLogo from './assets/images/svelte-logo.svg'
+  import { toDos } from './store'
 </script>
 
 <header class="app-header">
@@ -11,8 +12,10 @@
 </header>
 <main class="app-main">
   <div class="container">
-    <ListList />
-    <TaskList />
+    <Lists />
+    {#if $toDos.selectedListId}
+      <Tasks />
+    {/if}
   </div>
 </main>
 <footer class="app-footer">

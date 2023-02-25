@@ -11,8 +11,8 @@
     | 'grip-dots-vertical'
     | 'pen'
     | 'plus'
-    | 'trash-can'
-    | 'xmark' = null
+    | 'times'
+    | 'trash-can' = null
 </script>
 
 {#if href}
