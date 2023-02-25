@@ -15,6 +15,9 @@
 
   export let task: Task
 
+  let checkboxRef
+  let labelRef
+
   let selectedList = null
   $: selectedList = $toDos.selectedListId
     ? $toDos.lists.filter((list) => list.id === $toDos.selectedListId)[0]
@@ -22,24 +25,21 @@
   let labelPrevContent
   let isTaskBeingEdited = false
 
-  let checkbox
-  let label
-
   const handleEditTask = () => {
-    labelPrevContent = label.textContent
+    labelPrevContent = labelRef.textContent
     isTaskBeingEdited = true
-    checkbox.setAttribute('disabled', true)
-    label.setAttribute('contenteditable', true)
-    label.focus()
+    checkboxRef.setAttribute('disabled', true)
+    labelRef.setAttribute('contenteditable', true)
+    labelRef.focus()
   }
 
   const handleTaskChanges = (action: 'confirm' | 'cancel') => {
     isTaskBeingEdited = false
     action === 'confirm'
-      ? editTask(selectedList.id, task.id, label.textContent)
-      : (label.textContent = labelPrevContent)
-    checkbox.removeAttribute('disabled')
-    label.removeAttribute('contenteditable')
+      ? editTask(selectedList.id, task.id, labelRef.textContent)
+      : (labelRef.textContent = labelPrevContent)
+    checkboxRef.removeAttribute('disabled')
+    labelRef.removeAttribute('contenteditable')
   }
 
   const handleOnKeydownTaskChanges = (event) => {
@@ -64,7 +64,7 @@
     <Icon icon="grip-dots-vertical" />
   </span>
   <input
-    bind:this={checkbox}
+    bind:this={checkboxRef}
     type="checkbox"
     bind:checked={task.isDone}
     id={`task-${task.id}`}
@@ -72,7 +72,7 @@
     on:click={() => toggleTaskStatus(selectedList.id, task.id)}
   />
   <label
-    bind:this={label}
+    bind:this={labelRef}
     for={`task-${task.id}`}
     class="task__label"
     on:keydown={(event) => handleOnKeydownTaskChanges(event)}

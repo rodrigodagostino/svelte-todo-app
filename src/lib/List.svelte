@@ -15,6 +15,8 @@
 
   export let list
 
+  let titleRef
+
   let isListBeingEdited = false
   let remainingTasks: string = null
   $: {
@@ -27,14 +29,12 @@
   let taskNewTitle = ''
   let titlePrevContent
 
-  let title
-
   const handleListChanges = (action: 'confirm' | 'cancel') => {
     isListBeingEdited = false
     action === 'confirm'
-      ? editList(list.id, title.textContent)
-      : (title.textContent = titlePrevContent)
-    title.removeAttribute('contenteditable')
+      ? editList(list.id, titleRef.textContent)
+      : (titleRef.textContent = titlePrevContent)
+    titleRef.removeAttribute('contenteditable')
   }
 
   const handleOnKeydownListChanges = (event) => {
@@ -49,10 +49,10 @@
   }
 
   const editListTitle = () => {
-    titlePrevContent = title.textContent
+    titlePrevContent = titleRef.textContent
     isListBeingEdited = true
-    title.setAttribute('contenteditable', true)
-    title.focus()
+    titleRef.setAttribute('contenteditable', true)
+    titleRef.focus()
   }
 
   const handleAddTask = () => {
@@ -75,7 +75,7 @@
   <header class="list__header">
     <div class="list__header-top">
       <h2
-        bind:this={title}
+        bind:this={titleRef}
         class="list__title"
         on:keydown={(event) => handleOnKeydownListChanges(event)}
       >
