@@ -67,13 +67,13 @@
     bind:this={checkboxRef}
     type="checkbox"
     bind:checked={task.isDone}
-    id={`task-${task.id}`}
+    id="task-{task.id}"
     class="task__checkbox"
     on:click={() => toggleTaskStatus(selectedList.id, task.id)}
   />
   <label
     bind:this={labelRef}
-    for={`task-${task.id}`}
+    for="task-{task.id}"
     class="task__label"
     on:keydown={(event) => handleOnKeydownTaskChanges(event)}
   >
