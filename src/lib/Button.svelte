@@ -61,7 +61,7 @@
     font-weight: 600;
     text-transform: uppercase;
     text-decoration: none;
-    transition: color 0.24s, box-shadow 0.12s, outline 0.24s;
+    transition: color 0.24s, outline 0.24s;
     cursor: pointer;
 
     &:focus-visible {

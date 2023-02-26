@@ -185,7 +185,7 @@
       border-bottom: 2px solid var(--gray-400);
       margin-left: 2rem;
       outline: none;
-      transition: border 0.32s;
+      transition: border 0.24s;
 
       &:focus {
         border-bottom-color: var(--color-main);

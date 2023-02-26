@@ -140,8 +140,8 @@
 
     &__checkbox,
     &__label {
+      transition: opacity 0.24s;
       cursor: pointer;
-      transition: opacity 0.32s;
     }
 
     &__checkbox {
