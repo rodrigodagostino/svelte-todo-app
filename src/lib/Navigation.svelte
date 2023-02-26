@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fly } from 'svelte/transition'
+  import { fade, fly } from 'svelte/transition'
   import { addList, setSelectedList, toDos } from '../store'
 
   import Button from './Button.svelte'
@@ -19,8 +19,12 @@
 
 <nav class="navigation" in:fly={{ y: 32, duration: 320, delay: 320 }}>
   <ul class="navigation__items">
-    {#each $toDos.lists as list}
-      <li class="navigation__item">
+    {#each $toDos.lists as list (list.id)}
+      <li
+        class="navigation__item"
+        in:fly={{ y: 32, duration: 320 }}
+        out:fade={{ duration: 320 }}
+      >
         <button
           class="navigation__item-button"
           class:is-active={list.id === $toDos.selectedListId}
