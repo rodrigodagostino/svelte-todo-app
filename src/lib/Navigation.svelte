@@ -18,18 +18,22 @@
 </script>
 
 <nav class="navigation" in:fly={{ y: 32, duration: 320, delay: 320 }}>
-  {#each $toDos.lists as list}
-    <li
-      class="navigation__item"
-      class:is-active={list.id === $toDos.selectedListId}
-      on:click={() => setSelectedList(list.id)}
-    >
-      <span class="navigation__item-handle">
-        <Icon icon="grip-dots-vertical" />
-      </span>
-      <span class="navigation__item-label">{list.title}</span>
-    </li>
-  {/each}
+  <ul class="navigation__items">
+    {#each $toDos.lists as list}
+      <li class="navigation__item">
+        <button
+          class="navigation__item-button"
+          class:is-active={list.id === $toDos.selectedListId}
+          on:click={() => setSelectedList(list.id)}
+        >
+          <span class="navigation__item-handle">
+            <Icon icon="grip-dots-vertical" />
+          </span>
+          <span class="navigation__item-label">{list.title}</span>
+        </button>
+      </li>
+    {/each}
+  </ul>
   <form class="navigation__form" on:submit|preventDefault={handleAddList}>
     <input
       type="text"
@@ -44,15 +48,26 @@
   .navigation {
     color: var(--white);
 
-    &__item {
+    &__items {
+      list-style: none;
+    }
+
+    &__item-button {
       display: flex;
       gap: 0.5rem;
       align-items: center;
+      width: 100%;
+      padding: 1rem 0;
+      border: none;
+      outline: 3px solid transparent;
       font-size: 1.5rem;
       line-height: 1.2;
-      padding: 1rem 0;
-      transition: background-color 0.32s, padding 0.32s;
+      transition: background-color 0.24s, padding 0.24s, outline 0.24s;
       cursor: pointer;
+
+      &:focus-visible {
+        outline: 3px solid currentColor;
+      }
 
       &.is-active {
         font-weight: 600;
