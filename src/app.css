@@ -125,6 +125,11 @@ hr {
   padding: 0;
 }
 
+::selection {
+  color: var(--white);
+  background: var(--indigo-600);
+}
+
 a {
   color: var(--white);
   transition: outline 0.24s;
