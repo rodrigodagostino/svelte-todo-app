@@ -13,17 +13,17 @@
   import Button from './Button.svelte'
   import Task from './Task.svelte'
 
-  export let list
+  export let list: List
 
   let titleRef
 
   let isListBeingEdited = false
   let remainingTasks: string = null
   $: {
-    let remaining = 0
-    for (const task of list.tasks) {
-      if (!task.isDone) remaining++
-    }
+    const remaining = list.tasks.reduce(
+      (total, currentValue) => (currentValue.isDone ? total + 1 : total),
+      0
+    )
     remainingTasks = `${remaining} task${remaining !== 1 ? 's' : ''} remaining`
   }
   let taskNewTitle = ''
@@ -115,7 +115,7 @@
   </header>
 
   <div class="list__content">
-    {#each list.tasks as task}
+    {#each list.tasks as task (task.id)}
       <Task {task} />
     {/each}
     <form class="list__form" on:submit|preventDefault={handleAddTask}>
