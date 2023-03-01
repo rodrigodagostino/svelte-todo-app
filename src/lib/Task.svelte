@@ -14,6 +14,7 @@
   import Icon from './Icon.svelte'
 
   export let task: Task
+  export let dataId: number
 
   let checkboxRef
   let labelRef
@@ -57,6 +58,7 @@
 <li
   class="task"
   class:task--done={task.isDone}
+  data-id={dataId}
   in:fly={{ y: 32, duration: 320 }}
   out:fade={{ duration: 320 }}
 >
@@ -112,6 +114,8 @@
     align-items: center;
     padding: 0.5rem 0;
     border-bottom: 1px solid var(--gray-200);
+    background-color: var(--white);
+    transition: background-color 0.24s;
 
     &--done {
       .task__label {
@@ -178,6 +182,16 @@
       &:hover {
         color: var(--red-500);
       }
+    }
+
+    &:global(.task--ghost) {
+      background-color: var(--gray-100);
+      position: relative;
+      z-index: 10;
+    }
+
+    &:global(.task--drag) {
+      opacity: 0;
     }
   }
 </style>

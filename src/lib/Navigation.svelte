@@ -1,6 +1,8 @@
 <script lang="ts">
+  import Sortable, { type SortableOptions } from 'sortablejs'
+  import { cloneDeep } from 'lodash'
   import { fade, fly } from 'svelte/transition'
-  import { addList, setSelectedList, toDos } from '../store'
+  import { addList, setLists, setSelectedList, toDos } from '../store'
 
   import Button from './Button.svelte'
   import Icon from './Icon.svelte'
@@ -15,13 +17,39 @@
     })
     listNewTitle = ''
   }
+
+  const reorderArray = (array, from, to) =>
+    array.splice(to, 0, array.splice(from, 1)[0])
+
+  const sortableOptions: SortableOptions = {
+    handle: '.navigation__item-handle',
+    ghostClass: 'navigation__item--ghost',
+    dragClass: 'navigation__item--drag',
+    animation: 200,
+    onUpdate: (event) => {
+      const currentLists = cloneDeep($toDos.lists)
+      reorderArray(currentLists, event.oldIndex, event.newIndex)
+      setLists(currentLists)
+    },
+  }
+
+  const sortable = (element, options) => {
+    const sortable = Sortable.create(element, options)
+
+    return {
+      destroy() {
+        sortable.destroy
+      },
+    }
+  }
 </script>
 
 <nav class="navigation" in:fly={{ y: 32, duration: 320, delay: 320 }}>
-  <ul class="navigation__items">
+  <ul class="navigation__items" use:sortable={sortableOptions}>
     {#each $toDos.lists as list (list.id)}
       <li
         class="navigation__item"
+        data-id={list.id}
         in:fly={{ y: 32, duration: 320 }}
         out:fade={{ duration: 320 }}
       >
@@ -56,6 +84,18 @@
       list-style: none;
     }
 
+    &__item {
+      &:global(.navigation__item--ghost) {
+        background-color: rgba(79, 70, 229, 0.5);
+        position: relative;
+        z-index: 10;
+      }
+
+      &:global(.navigation__item--drag) {
+        opacity: 0;
+      }
+    }
+
     &__item-button {
       display: flex;
       gap: 0.5rem;
@@ -82,6 +122,7 @@
     }
 
     &__item-handle {
+      display: block;
       flex: 0 0 auto;
       display: flex;
       padding: 0.25rem 0.5rem;

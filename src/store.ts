@@ -26,7 +26,7 @@ export const setSelectedList = (listId) => {
   }))
 }
 
-const setLists = (value) => {
+export const setLists = (value) => {
   toDos.update((currData) => ({
     ...currData,
     lists: value,
@@ -44,7 +44,17 @@ export const addList = (newList) => {
   setSelectedList(toDosRef.lists[toDosRef.lists.length - 1].id)
 }
 
-export const editList = (listId, newListTitle) => {
+export const editList = (listId, newList) => {
+  let toDosRef
+  toDos.subscribe((currData) => (toDosRef = currData))
+
+  const newLists = toDosRef.lists
+  const targetListIndex = newLists.findIndex((list) => list.id === listId)
+  newLists[targetListIndex] = newList
+  setLists(newLists)
+}
+
+export const editListTitle = (listId, newListTitle) => {
   let toDosRef
   toDos.subscribe((currData) => (toDosRef = currData))
 

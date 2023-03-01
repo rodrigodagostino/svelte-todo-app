@@ -7,8 +7,10 @@
 </script>
 
 <script lang="ts">
+  import Sortable, { type SortableOptions } from 'sortablejs'
+  import { cloneDeep } from 'lodash'
   import { fade, fly } from 'svelte/transition'
-  import { addTask, editList, removeList } from '../store'
+  import { addTask, editList, editListTitle, removeList } from '../store'
 
   import Button from './Button.svelte'
   import Task from './Task.svelte'
@@ -29,26 +31,26 @@
   let taskNewTitle = ''
   let titlePrevContent
 
-  const handleListChanges = (action: 'confirm' | 'cancel') => {
+  const handleTitleChanges = (action: 'confirm' | 'cancel') => {
     isListBeingEdited = false
     action === 'confirm'
-      ? editList(list.id, titleRef.textContent)
+      ? editListTitle(list.id, titleRef.textContent)
       : (titleRef.textContent = titlePrevContent)
     titleRef.removeAttribute('contenteditable')
   }
 
-  const handleOnKeydownListChanges = (event) => {
+  const handleOnKeydownTitleChanges = (event) => {
     switch (event.key) {
       case 'Enter':
-        handleListChanges('confirm')
+        handleTitleChanges('confirm')
         break
       case 'Escape':
-        handleListChanges('cancel')
+        handleTitleChanges('cancel')
         break
     }
   }
 
-  const editListTitle = () => {
+  const triggerTitleEdit = () => {
     titlePrevContent = titleRef.textContent
     isListBeingEdited = true
     titleRef.setAttribute('contenteditable', true)
@@ -65,6 +67,33 @@
       taskNewTitle = ''
     }
   }
+
+  const reorderArray = (array, from, to) =>
+    array.splice(to, 0, array.splice(from, 1)[0])
+
+  const sortableOptions: SortableOptions = {
+    handle: '.task__handle',
+    ghostClass: 'task--ghost',
+    dragClass: 'task--drag',
+    animation: 200,
+    onUpdate: (event) => {
+      const currentTasks = cloneDeep(list.tasks)
+      reorderArray(currentTasks, event.oldIndex, event.newIndex)
+      const currentList = cloneDeep(list)
+      currentList.tasks = currentTasks
+      editList(list.id, currentList)
+    },
+  }
+
+  const sortable = (element, options) => {
+    const sortable = Sortable.create(element, options)
+
+    return {
+      destroy() {
+        sortable.destroy
+      },
+    }
+  }
 </script>
 
 <section
@@ -77,7 +106,7 @@
       <h2
         bind:this={titleRef}
         class="list__title"
-        on:keydown={(event) => handleOnKeydownListChanges(event)}
+        on:keydown={(event) => handleOnKeydownTitleChanges(event)}
       >
         {list.title}
       </h2>
@@ -86,17 +115,17 @@
           <Button
             variant="neutral"
             icon="check"
-            on:click={() => handleListChanges('confirm')}
+            on:click={() => handleTitleChanges('confirm')}
           />
           <Button
             variant="neutral"
             icon="times"
-            on:click={() => handleListChanges('cancel')}
+            on:click={() => handleTitleChanges('cancel')}
           />
         </div>
       {:else}
         <div class="list__actions">
-          <Button variant="neutral" icon="pen" on:click={editListTitle} />
+          <Button variant="neutral" icon="pen" on:click={triggerTitleEdit} />
           <Button
             variant="neutral"
             icon="trash-can"
@@ -115,9 +144,11 @@
   </header>
 
   <div class="list__content">
-    {#each list.tasks as task (task.id)}
-      <Task {task} />
-    {/each}
+    <div class="list__tasks" use:sortable={sortableOptions}>
+      {#each list.tasks as task (task.id)}
+        <Task {task} dataId={task.id} />
+      {/each}
+    </div>
     <form class="list__form" on:submit|preventDefault={handleAddTask}>
       <input type="text" class="list__form-input" bind:value={taskNewTitle} />
       <Button variant="neutral" type="submit" icon="plus" />
