@@ -116,7 +116,7 @@
       &.is-active {
         font-weight: 600;
         color: var(--white-rich);
-        background-color: var(--color-main--dark);
+        background-color: var(--indigo-800);
         padding: 1rem;
       }
     }
@@ -129,14 +129,14 @@
       cursor: grab;
 
       :global(svg circle) {
-        fill: var(--color-main--lighter);
+        fill: var(--indigo-200);
         transition: fill 0.24s;
       }
 
       &:focus,
       &:hover {
         :global(svg circle) {
-          fill: var(--color-main--lightest);
+          fill: var(--indigo-100);
         }
       }
     }

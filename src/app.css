@@ -47,14 +47,6 @@
 :root {
   --font-main: "Poppins", Avenir, Helvetica, Arial, sans-serif;
 
-  --color-main--lightest: #c7d2fe;
-  --color-main--lighter: #a5b4fc;
-  --color-main--light: #818cf8;
-  --color-main: #6366f1;
-  --color-main--dark: #4f46e5;
-  --color-main--darker: #4338ca;
-  --color-main--darkest: #3730a3;
-
   --indigo-050: #eef2ff;
   --indigo-100: #e0e7ff;
   --indigo-200: #c7d2fe;
@@ -185,7 +177,7 @@ table {
 body {
   font-family: var(--font-main);
   color: var(--gray-800);
-  background-color: var(--color-main);
+  background-color: var(--indigo-400);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;

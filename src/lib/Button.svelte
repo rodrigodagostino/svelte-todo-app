@@ -69,13 +69,13 @@
     }
 
     &--main {
-      color: var(--color-main);
+      color: var(--indigo-500);
       background-color: transparent;
       border: 2px solid transparent;
 
       &:focus,
       &:hover {
-        color: var(--color-main--light);
+        color: var(--indigo-400);
       }
     }
 
@@ -86,7 +86,7 @@
 
       &:focus,
       &:hover {
-        color: var(--color-main);
+        color: var(--indigo-500);
       }
     }
 

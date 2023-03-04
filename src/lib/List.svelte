@@ -181,7 +181,7 @@
 
       &:is([contenteditable='true']) {
         outline: none;
-        box-shadow: 0 2px 0 var(--color-main);
+        box-shadow: 0 2px 0 var(--indigo-500);
         cursor: text;
       }
     }
@@ -219,7 +219,7 @@
       transition: border 0.24s;
 
       &:focus {
-        border-bottom-color: var(--color-main);
+        border-bottom-color: var(--indigo-500);
       }
     }
   }

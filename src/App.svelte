@@ -53,7 +53,7 @@
       margin-bottom: -0.5em;
       font-size: clamp(2rem, 10vw, 5.8125rem);
       font-weight: 900;
-      color: var(--color-main--dark);
+      color: var(--indigo-600);
       text-align: center;
       text-transform: uppercase;
       white-space: nowrap;

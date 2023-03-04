@@ -137,7 +137,7 @@
       &:focus,
       &:hover {
         :global(svg circle) {
-          fill: var(--color-main);
+          fill: var(--indigo-500);
         }
       }
     }
@@ -160,7 +160,7 @@
 
       &:is([contenteditable='true']) {
         outline: none;
-        box-shadow: 0 2px 0 var(--color-main);
+        box-shadow: 0 2px 0 var(--indigo-500);
         cursor: text;
       }
     }
