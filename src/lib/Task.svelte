@@ -59,8 +59,8 @@
   class="task"
   class:task--done={task.isDone}
   data-id={dataId}
-  in:fly={{ y: 32, duration: 320 }}
-  out:fade={{ duration: 320 }}
+  in:fly|local={{ y: 32, duration: 320 }}
+  out:fade|local={{ duration: 320 }}
 >
   <span class="task__handle">
     <Icon icon="grip-dots-vertical" />
