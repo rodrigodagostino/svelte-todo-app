@@ -13,13 +13,11 @@
 <main class="app-main">
   <div class="container">
     <Navigation />
-    {#if $toDos.selectedListId}
-      {#each $toDos.lists as list (list.id)}
-        {#if $toDos.selectedListId === list.id}
-          <List {list} />
-        {/if}
-      {/each}
-    {/if}
+    {#each $toDos.lists as list (list.id)}
+      {#if $toDos.selectedListId === list.id}
+        <List {list} />
+      {/if}
+    {/each}
   </div>
 </main>
 <footer class="app-footer">
