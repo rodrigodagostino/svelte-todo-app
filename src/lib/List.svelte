@@ -8,7 +8,6 @@
 
 <script lang="ts">
   import Sortable, { type SortableOptions } from 'sortablejs'
-  import { cloneDeep } from 'lodash'
   import { fade, fly } from 'svelte/transition'
   import { fadeScale } from '../transitions'
   import { addTask, editList, editListTitle, removeList } from '../store'
@@ -16,14 +15,16 @@
   import Button from './Button.svelte'
   import Task from './Task.svelte'
 
-  export let list: List
+  export let id: List['id']
+  export let title: List['title']
+  export let tasks: List['tasks']
 
   let titleRef
 
   let isListBeingEdited = false
   let remainingTasks: string = null
   $: {
-    const remaining = list.tasks.reduce(
+    const remaining = tasks.reduce(
       (total, currentValue) => (!currentValue.isDone ? total + 1 : total),
       0
     )
@@ -35,7 +36,7 @@
   const handleTitleChanges = (action: 'confirm' | 'cancel') => {
     isListBeingEdited = false
     action === 'confirm'
-      ? editListTitle(list.id, titleRef.textContent)
+      ? editListTitle(id, titleRef.textContent)
       : (titleRef.textContent = titlePrevContent)
     titleRef.removeAttribute('contenteditable')
   }
@@ -60,7 +61,7 @@
 
   const handleAddTask = () => {
     if (taskNewTitle !== '') {
-      addTask(list.id, {
+      addTask(id, {
         id: new Date().getTime(),
         title: taskNewTitle,
         isDone: false,
@@ -78,20 +79,18 @@
     dragClass: 'task--drag',
     animation: 200,
     onUpdate: (event) => {
-      const currentTasks = cloneDeep(list.tasks)
-      reorderArray(currentTasks, event.oldIndex, event.newIndex)
-      const currentList = cloneDeep(list)
-      currentList.tasks = currentTasks
-      editList(list.id, currentList)
+      reorderArray(tasks, event.oldIndex, event.newIndex)
+      const currentList = { id, title, tasks }
+      editList(id, currentList)
     },
   }
 
   const sortable = (element, options) => {
-    const sortable = Sortable.create(element, options)
+    const instance = Sortable.create(element, options)
 
     return {
       destroy() {
-        sortable.destroy
+        instance.destroy
       },
     }
   }
@@ -109,7 +108,7 @@
         class="list__title"
         on:keydown={(event) => handleOnKeydownTitleChanges(event)}
       >
-        {list.title}
+        {title}
       </h2>
       {#if isListBeingEdited}
         <div class="list__actions">
@@ -130,12 +129,12 @@
           <Button
             variant="neutral"
             icon="trash-can"
-            on:click={() => removeList(list.id)}
+            on:click={() => removeList(id)}
           />
         </div>
       {/if}
     </div>
-    {#if list.tasks.length}
+    {#if tasks.length}
       <div
         class="list__header-bottom"
         transition:fadeScale|local={{ duration: 320 }}
@@ -149,8 +148,13 @@
 
   <div class="list__content">
     <div class="list__tasks" use:sortable={sortableOptions}>
-      {#each list.tasks as task (task.id)}
-        <Task {task} dataId={task.id} />
+      {#each tasks as task (task.id)}
+        <Task
+          listId={id}
+          id={task.id}
+          title={task.title}
+          isDone={task.isDone}
+        />
       {/each}
     </div>
     <form class="list__form" on:submit|preventDefault={handleAddTask}>

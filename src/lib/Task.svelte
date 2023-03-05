@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
   export interface Task {
+    listId: number
     id: number
     title: string
     isDone: boolean
@@ -8,21 +9,19 @@
 
 <script lang="ts">
   import { flyScale, fadeScale } from '../transitions'
-  import { editTask, removeTask, toDos, toggleTaskStatus } from '../store'
+  import { editTask, removeTask, toggleTaskStatus } from '../store'
 
   import Button from './Button.svelte'
   import Icon from './Icon.svelte'
 
-  export let task: Task
-  export let dataId: number
+  export let listId: Task['listId']
+  export let id: Task['id']
+  export let title: Task['title']
+  export let isDone: Task['isDone']
 
   let checkboxRef
   let labelRef
 
-  let selectedList = null
-  $: selectedList = $toDos.selectedListId
-    ? $toDos.lists.filter((list) => list.id === $toDos.selectedListId)[0]
-    : null
   let labelPrevContent
   let isTaskBeingEdited = false
 
@@ -37,7 +36,7 @@
   const handleTaskChanges = (action: 'confirm' | 'cancel') => {
     isTaskBeingEdited = false
     action === 'confirm'
-      ? editTask(selectedList.id, task.id, labelRef.textContent)
+      ? editTask(listId, id, labelRef.textContent)
       : (labelRef.textContent = labelPrevContent)
     checkboxRef.removeAttribute('disabled')
     labelRef.removeAttribute('contenteditable')
@@ -57,8 +56,8 @@
 
 <li
   class="task"
-  class:task--done={task.isDone}
-  data-id={dataId}
+  class:task--done={isDone}
+  data-id={id}
   in:flyScale|local={{ y: 64, duration: 320 }}
   out:fadeScale|local={{ duration: 320 }}
 >
@@ -69,18 +68,18 @@
     <input
       bind:this={checkboxRef}
       type="checkbox"
-      bind:checked={task.isDone}
-      id="task-{task.id}"
+      bind:checked={isDone}
+      id="task-{id}"
       class="task__checkbox"
-      on:click={() => toggleTaskStatus(selectedList.id, task.id)}
+      on:click={() => toggleTaskStatus(listId, id)}
     />
     <label
       bind:this={labelRef}
-      for="task-{task.id}"
+      for="task-{id}"
       class="task__label"
       on:keydown={(event) => handleOnKeydownTaskChanges(event)}
     >
-      {task.title}
+      {title}
     </label>
     {#if isTaskBeingEdited}
       <div class="task__actions">
@@ -103,7 +102,7 @@
         <Button
           variant="neutral"
           icon="trash-can"
-          on:click={() => removeTask(selectedList.id, task.id)}
+          on:click={() => removeTask(listId, id)}
         />
       </div>
     {/if}

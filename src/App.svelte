@@ -1,8 +1,9 @@
 <script lang="ts">
+  import { toDos } from './store'
+
   import Navigation from './lib/Navigation.svelte'
   import List from './lib/List.svelte'
   import svelteLogo from './assets/images/svelte-logo.svg'
-  import { toDos } from './store'
 </script>
 
 <header class="app-header">
@@ -15,7 +16,7 @@
     <Navigation />
     {#each $toDos.lists as list (list.id)}
       {#if $toDos.selectedListId === list.id}
-        <List {list} />
+        <List id={list.id} title={list.title} tasks={list.tasks} />
       {/if}
     {/each}
   </div>

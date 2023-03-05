@@ -1,6 +1,5 @@
 <script lang="ts">
   import Sortable, { type SortableOptions } from 'sortablejs'
-  import { cloneDeep } from 'lodash'
   import { fly } from 'svelte/transition'
   import { fadeScale, flyScale } from '../transitions'
   import { addList, setLists, setSelectedList, toDos } from '../store'
@@ -28,18 +27,17 @@
     dragClass: 'navigation__item--drag',
     animation: 200,
     onUpdate: (event) => {
-      const currentLists = cloneDeep($toDos.lists)
-      reorderArray(currentLists, event.oldIndex, event.newIndex)
-      setLists(currentLists)
+      reorderArray($toDos.lists, event.oldIndex, event.newIndex)
+      setLists($toDos.lists)
     },
   }
 
   const sortable = (element, options) => {
-    const sortable = Sortable.create(element, options)
+    const instance = Sortable.create(element, options)
 
     return {
       destroy() {
-        sortable.destroy
+        instance.destroy
       },
     }
   }

@@ -234,7 +234,7 @@
   resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.3.13.tgz#da4bfd73f49bd541d28920ab0e2bf0ee80f71c91"
   integrity sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==
 
-"@types/sortablejs@^1.15.0":
+"@types/sortablejs@1.15.0":
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/@types/sortablejs/-/sortablejs-1.15.0.tgz#695e481752e2a0a311c5e73b51d5f666fc202f93"
   integrity sha512-qrhtM7M41EhH4tZQTNw2/RJkxllBx3reiJpTbgWCM2Dx0U1sZ6LwKp9lfNln9uqE26ZMKUaPEYaD4rzvOWYtZw==
@@ -543,10 +543,10 @@ eslint-plugin-prettier@4.2.1:
   dependencies:
     prettier-linter-helpers "^1.0.0"
 
-eslint-plugin-svelte@2.19.1:
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-svelte/-/eslint-plugin-svelte-2.19.1.tgz#7aa8a687caad89e25a920c8cfc7dc4faad14944d"
-  integrity sha512-pebC5+kWjKEg2HPFbnl7Ky+tC58DXhQthsUuSAcMLqunCsaXEDa/t6SQ5/zqkg4QI1EQucLacdzlTMMPkpl3FA==
+eslint-plugin-svelte@2.19.2:
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-svelte/-/eslint-plugin-svelte-2.19.2.tgz#957ab49c087afcd3f729265a4ab7550cfdb2aede"
+  integrity sha512-dR27pP/SVT7x20QwhTGBbLh+mHPBxnawCLgaqWi5z07uwnM4HW/N8opuruI5aFuV8+OMRsKwGUN7BPjWrz0yTA==
   dependencies:
     "@jridgewell/sourcemap-codec" "^1.4.14"
     debug "^4.3.1"
@@ -963,11 +963,6 @@ lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
-
-lodash@4.17.21:
-  version "4.17.21"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
-  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 lru-cache@^6.0.0:
   version "6.0.0"
