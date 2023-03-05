@@ -1,23 +1,28 @@
-import { writable } from 'svelte/store'
+import { writable, get } from 'svelte/store'
 import type { List } from './lib/List.svelte'
 
 interface ToDos {
   lists: List[]
-  selectedList: List
   selectedListId: number
 }
 
-const hasLists =
-  localStorage.getItem('todos') &&
-  localStorage.getItem('todos').charAt(0) === '['
-
-export const toDos = writable<ToDos>({
-  lists: hasLists ? JSON.parse(localStorage.getItem('todos')) : [],
-  selectedList: hasLists ? JSON.parse(localStorage.getItem('todos'))[0] : null,
-  selectedListId: hasLists
-    ? JSON.parse(localStorage.getItem('todos'))[0].id
-    : null,
-})
+export const toDos = writable<ToDos>(
+  {
+    lists: [],
+    selectedListId: null,
+  },
+  (set) => {
+    const hasLists =
+      localStorage.getItem('todos') &&
+      localStorage.getItem('todos').charAt(0) === '['
+    set({
+      lists: hasLists ? JSON.parse(localStorage.getItem('todos')) : [],
+      selectedListId: hasLists
+        ? JSON.parse(localStorage.getItem('todos'))[0].id
+        : null,
+    })
+  }
+)
 
 export const setSelectedList = (listId) => {
   toDos.update((currData) => ({
@@ -35,71 +40,67 @@ export const setLists = (value) => {
 }
 
 export const addList = (newList) => {
-  let toDosRef
-  toDos.subscribe((currData) => (toDosRef = currData))
+  let $toDos
+  const unsubscribe = toDos.subscribe((currData) => ($toDos = currData))
 
-  const newLists = toDosRef.lists ? [...toDosRef.lists, newList] : [newList]
+  const newLists = $toDos.lists ? [...$toDos.lists, newList] : [newList]
   setLists(newLists)
   // Select the recently created list.
-  setSelectedList(toDosRef.lists[toDosRef.lists.length - 1].id)
+  setSelectedList($toDos.lists[$toDos.lists.length - 1].id)
+
+  unsubscribe()
 }
 
 export const editList = (listId, newList) => {
-  let toDosRef
-  toDos.subscribe((currData) => (toDosRef = currData))
+  const $toDos = get(toDos)
 
-  const newLists = toDosRef.lists
+  const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
   newLists[targetListIndex] = newList
   setLists(newLists)
 }
 
 export const editListTitle = (listId, newListTitle) => {
-  let toDosRef
-  toDos.subscribe((currData) => (toDosRef = currData))
+  const $toDos = get(toDos)
 
-  const newLists = toDosRef.lists
+  const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
   newLists[targetListIndex].title = newListTitle
   setLists(newLists)
 }
 
 export const removeList = (listId) => {
-  let toDosRef
-  toDos.subscribe((currData) => (toDosRef = currData))
+  const $toDos = get(toDos)
 
-  const listIndex = toDosRef.lists.findIndex((list) => list.id === listId)
+  const listIndex = $toDos.lists.findIndex((list) => list.id === listId)
   // Select the previous list (if it exists) before deleting.
-  if (toDosRef.lists.length > 1 && listIndex !== 0) {
-    setSelectedList(toDosRef.lists[listIndex - 1].id)
+  if ($toDos.lists.length > 1 && listIndex !== 0) {
+    setSelectedList($toDos.lists[listIndex - 1].id)
     // Select the next list (if it exists) before deleting.
-  } else if (toDosRef.lists.length > 1 && listIndex === 0) {
-    setSelectedList(toDosRef.lists[listIndex + 1].id)
+  } else if ($toDos.lists.length > 1 && listIndex === 0) {
+    setSelectedList($toDos.lists[listIndex + 1].id)
     // Deselect the current list before deleting.
   } else {
     setSelectedList(null)
   }
-  const newLists = toDosRef.lists.filter((list) => {
-    return list.id !== listId
-  })
+
+  const newLists = $toDos.lists.filter((list) => list.id !== listId)
   setLists(newLists)
 }
 
 export const addTask = (listId, newTaskData) => {
-  let toDosRef
-  toDos.subscribe((currData) => (toDosRef = currData))
+  const $toDos = get(toDos)
 
-  const newLists = toDosRef.lists
+  const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
   newLists[targetListIndex].tasks.push(newTaskData)
   setLists(newLists)
 }
 
 export const editTask = (listId, taskId, newTaskTitle) => {
-  let toDosRef
-  toDos.subscribe((currData) => (toDosRef = currData))
+  const $toDos = get(toDos)
 
-  const newLists = toDosRef.lists
+  const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
   const targetTaskIndex = newLists[targetListIndex].tasks.findIndex(
     (task) => task.id === taskId
@@ -109,10 +110,9 @@ export const editTask = (listId, taskId, newTaskTitle) => {
 }
 
 export const toggleTaskStatus = (listId, taskId) => {
-  let toDosRef
-  toDos.subscribe((currData) => (toDosRef = currData))
+  const $toDos = get(toDos)
 
-  const newLists = toDosRef.lists
+  const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
   const targetTaskIndex = newLists[targetListIndex].tasks.findIndex(
     (task) => task.id === taskId
@@ -123,10 +123,9 @@ export const toggleTaskStatus = (listId, taskId) => {
 }
 
 export const removeTask = (listId, taskId) => {
-  let toDosRef
-  toDos.subscribe((currData) => (toDosRef = currData))
+  const $toDos = get(toDos)
 
-  const newLists = toDosRef.lists
+  const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
   const targetTaskIndex = newLists[targetListIndex].tasks.findIndex(
     (task) => task.id === taskId
