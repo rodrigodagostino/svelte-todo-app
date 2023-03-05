@@ -7,7 +7,7 @@
 </script>
 
 <script lang="ts">
-  import { fade, fly } from 'svelte/transition'
+  import { flyScale, fadeScale } from '../transitions'
   import { editTask, removeTask, toDos, toggleTaskStatus } from '../store'
 
   import Button from './Button.svelte'
@@ -59,69 +59,75 @@
   class="task"
   class:task--done={task.isDone}
   data-id={dataId}
-  in:fly|local={{ y: 32, duration: 320 }}
-  out:fade|local={{ duration: 320 }}
+  in:flyScale|local={{ y: 64, duration: 320 }}
+  out:fadeScale|local={{ duration: 320 }}
 >
-  <span class="task__handle">
-    <Icon icon="grip-dots-vertical" />
-  </span>
-  <input
-    bind:this={checkboxRef}
-    type="checkbox"
-    bind:checked={task.isDone}
-    id="task-{task.id}"
-    class="task__checkbox"
-    on:click={() => toggleTaskStatus(selectedList.id, task.id)}
-  />
-  <label
-    bind:this={labelRef}
-    for="task-{task.id}"
-    class="task__label"
-    on:keydown={(event) => handleOnKeydownTaskChanges(event)}
-  >
-    {task.title}
-  </label>
-  {#if isTaskBeingEdited}
-    <div class="task__actions">
-      <Button
-        variant="neutral"
-        icon="check"
-        class="task__button-confirm"
-        on:click={() => handleTaskChanges('confirm')}
-      />
-      <Button
-        variant="neutral"
-        icon="times"
-        class="task__button-cancel"
-        on:click={() => handleTaskChanges('cancel')}
-      />
-    </div>
-  {:else}
-    <div class="task__actions">
-      <Button variant="neutral" icon="pen" on:click={handleEditTask} />
-      <Button
-        variant="neutral"
-        icon="trash-can"
-        on:click={() => removeTask(selectedList.id, task.id)}
-      />
-    </div>
-  {/if}
+  <div class="task__inner">
+    <span class="task__handle">
+      <Icon icon="grip-dots-vertical" />
+    </span>
+    <input
+      bind:this={checkboxRef}
+      type="checkbox"
+      bind:checked={task.isDone}
+      id="task-{task.id}"
+      class="task__checkbox"
+      on:click={() => toggleTaskStatus(selectedList.id, task.id)}
+    />
+    <label
+      bind:this={labelRef}
+      for="task-{task.id}"
+      class="task__label"
+      on:keydown={(event) => handleOnKeydownTaskChanges(event)}
+    >
+      {task.title}
+    </label>
+    {#if isTaskBeingEdited}
+      <div class="task__actions">
+        <Button
+          variant="neutral"
+          icon="check"
+          class="task__button-confirm"
+          on:click={() => handleTaskChanges('confirm')}
+        />
+        <Button
+          variant="neutral"
+          icon="times"
+          class="task__button-cancel"
+          on:click={() => handleTaskChanges('cancel')}
+        />
+      </div>
+    {:else}
+      <div class="task__actions">
+        <Button variant="neutral" icon="pen" on:click={handleEditTask} />
+        <Button
+          variant="neutral"
+          icon="trash-can"
+          on:click={() => removeTask(selectedList.id, task.id)}
+        />
+      </div>
+    {/if}
+  </div>
 </li>
 
 <style lang="scss">
   .task {
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--gray-200);
-    background-color: var(--white);
-    transition: background-color 0.24s;
+    list-style: none;
 
     &--done {
       .task__label {
         text-decoration: line-through;
         opacity: 0.5;
       }
+    }
+
+    &__inner {
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--gray-200);
+      background-color: var(--white);
+      transition: background-color 0.24s;
     }
 
     &__handle {
@@ -137,7 +143,7 @@
       &:focus,
       &:hover {
         :global(svg circle) {
-          fill: var(--indigo-500);
+          fill: var(--color-main);
         }
       }
     }
@@ -160,7 +166,7 @@
 
       &:is([contenteditable='true']) {
         outline: none;
-        box-shadow: 0 2px 0 var(--indigo-500);
+        box-shadow: 0 2px 0 var(--color-main);
         cursor: text;
       }
     }

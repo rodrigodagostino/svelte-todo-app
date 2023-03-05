@@ -10,6 +10,7 @@
   import Sortable, { type SortableOptions } from 'sortablejs'
   import { cloneDeep } from 'lodash'
   import { fade, fly } from 'svelte/transition'
+  import { fadeScale } from '../transitions'
   import { addTask, editList, editListTitle, removeList } from '../store'
 
   import Button from './Button.svelte'
@@ -135,7 +136,10 @@
       {/if}
     </div>
     {#if list.tasks.length}
-      <div class="list__header-bottom">
+      <div
+        class="list__header-bottom"
+        transition:fadeScale|local={{ duration: 320 }}
+      >
         <p class="list__subhead">
           {remainingTasks}
         </p>

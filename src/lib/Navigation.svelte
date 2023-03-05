@@ -1,7 +1,8 @@
 <script lang="ts">
   import Sortable, { type SortableOptions } from 'sortablejs'
   import { cloneDeep } from 'lodash'
-  import { fade, fly } from 'svelte/transition'
+  import { fly } from 'svelte/transition'
+  import { fadeScale, flyScale } from '../transitions'
   import { addList, setLists, setSelectedList, toDos } from '../store'
 
   import Button from './Button.svelte'
@@ -50,8 +51,8 @@
       <li
         class="navigation__item"
         data-id={list.id}
-        in:fly={{ y: 32, duration: 320 }}
-        out:fade={{ duration: 320 }}
+        in:flyScale|local={{ y: 64, duration: 320 }}
+        out:fadeScale|local={{ duration: 320 }}
       >
         <button
           class="navigation__item-button"
