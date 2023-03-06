@@ -60,14 +60,14 @@
   }
 
   const handleAddTask = () => {
-    if (taskNewTitle !== '') {
-      addTask(id, {
-        id: new Date().getTime(),
-        title: taskNewTitle,
-        isDone: false,
-      })
-      taskNewTitle = ''
-    }
+    if (!(taskNewTitle.trim() !== '')) return
+
+    addTask(id, {
+      id: new Date().getTime(),
+      title: taskNewTitle,
+      isDone: false,
+    })
+    taskNewTitle = ''
   }
 
   const reorderArray = (array, from, to) =>

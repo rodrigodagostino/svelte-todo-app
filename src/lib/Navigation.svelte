@@ -10,6 +10,8 @@
   let listNewTitle = ''
 
   const handleAddList = () => {
+    if (!(listNewTitle.trim() !== '')) return
+
     addList({
       id: new Date().getTime(),
       title: listNewTitle,
