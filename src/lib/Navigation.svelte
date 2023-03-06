@@ -20,17 +20,23 @@
     listNewTitle = ''
   }
 
-  const reorderArray = (array, from, to) =>
-    array.splice(to, 0, array.splice(from, 1)[0])
-
   const sortableOptions: SortableOptions = {
     handle: '.navigation__item-handle',
     ghostClass: 'navigation__item--ghost',
     dragClass: 'navigation__item--drag',
     animation: 200,
-    onUpdate: (event) => {
-      reorderArray($toDos.lists, event.oldIndex, event.newIndex)
-      setLists($toDos.lists)
+    store: {
+      get: () => {
+        const order = $toDos.lists.map((list) => `${list.id}`)
+        return order ? order : []
+      },
+      set: (sortable) => {
+        const order = sortable.toArray()
+        const reorderedLists = $toDos.lists.sort(
+          (a, b) => order.indexOf(`${a.id}`) - order.indexOf(`${b.id}`)
+        )
+        setLists(reorderedLists)
+      },
     },
   }
 

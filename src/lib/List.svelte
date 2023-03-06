@@ -9,7 +9,7 @@
 <script lang="ts">
   import Sortable, { type SortableOptions } from 'sortablejs'
   import { fade, fly } from 'svelte/transition'
-  import { fadeScale } from '../transitions'
+  import { fadeScale, flyScale } from '../transitions'
   import { addTask, editList, editListTitle, removeList } from '../store'
 
   import Button from './Button.svelte'
@@ -70,18 +70,24 @@
     taskNewTitle = ''
   }
 
-  const reorderArray = (array, from, to) =>
-    array.splice(to, 0, array.splice(from, 1)[0])
-
   const sortableOptions: SortableOptions = {
     handle: '.task__handle',
-    ghostClass: 'task--ghost',
-    dragClass: 'task--drag',
+    ghostClass: 'list__task--ghost',
+    dragClass: 'list__task--drag',
     animation: 200,
-    onUpdate: (event) => {
-      reorderArray(tasks, event.oldIndex, event.newIndex)
-      const currentList = { id, title, tasks }
-      editList(id, currentList)
+    store: {
+      get: () => {
+        const order = tasks.map((task) => `${task.id}`)
+        return order ? order : []
+      },
+      set: (sortable) => {
+        const order = sortable.toArray()
+        const reorderedTasks = tasks.sort(
+          (a, b) => order.indexOf(`${a.id}`) - order.indexOf(`${b.id}`)
+        )
+        const reorderedList = { id, title, tasks: reorderedTasks }
+        editList(id, reorderedList)
+      },
     },
   }
 
@@ -147,16 +153,23 @@
   </header>
 
   <div class="list__content">
-    <div class="list__tasks" use:sortable={sortableOptions}>
+    <ul class="list__tasks" use:sortable={sortableOptions}>
       {#each tasks as task (task.id)}
-        <Task
-          listId={id}
-          id={task.id}
-          title={task.title}
-          isDone={task.isDone}
-        />
+        <li
+          class="list__task"
+          data-id={task.id}
+          in:flyScale|local={{ y: 64, duration: 320 }}
+          out:fadeScale|local={{ duration: 320 }}
+        >
+          <Task
+            listId={id}
+            id={task.id}
+            title={task.title}
+            isDone={task.isDone}
+          />
+        </li>
       {/each}
-    </div>
+    </ul>
     <form class="list__form" on:submit|preventDefault={handleAddTask}>
       <input type="text" class="list__form-input" bind:value={taskNewTitle} />
       <Button variant="neutral" type="submit" icon="plus" />
@@ -208,6 +221,20 @@
 
     &__content {
       padding: 1.5rem 1.5rem 2rem;
+    }
+
+    &__task {
+      list-style: none;
+
+      :is(&--ghost) {
+        background-color: var(--gray-100);
+        position: relative;
+        z-index: 10;
+      }
+
+      :is(&--drag) {
+        opacity: 0;
+      }
     }
 
     &__form {
