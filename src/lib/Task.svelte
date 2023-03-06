@@ -142,7 +142,7 @@
       &:focus,
       &:hover {
         :global(svg circle) {
-          fill: var(--color-main);
+          fill: var(--indigo-500);
         }
       }
     }
@@ -151,6 +151,10 @@
     &__label {
       transition: opacity 0.24s;
       cursor: pointer;
+    }
+
+    &__checkbox:disabled {
+      cursor: default;
     }
 
     &__checkbox {
@@ -165,7 +169,7 @@
 
       &:is([contenteditable='true']) {
         outline: none;
-        box-shadow: 0 2px 0 var(--color-main);
+        box-shadow: 0 2px 0 var(--indigo-500);
         cursor: text;
       }
     }
