@@ -24,10 +24,12 @@
   let isListBeingEdited = false
   let remainingTasks: string = null
   $: {
-    const remaining = tasks.reduce(
-      (total, currentValue) => (!currentValue.isDone ? total + 1 : total),
-      0
-    )
+    const remaining = tasks.length
+      ? tasks.reduce(
+          (total, currentValue) => (!currentValue.isDone ? total + 1 : total),
+          0
+        )
+      : 0
     remainingTasks = `${remaining} task${remaining !== 1 ? 's' : ''} remaining`
   }
   let taskNewTitle = ''
