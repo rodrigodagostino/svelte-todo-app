@@ -14,8 +14,8 @@ export const toDos = writable<ToDos>(
   },
   (set) => {
     const hasLists =
-      localStorage.getItem('todos') &&
-      localStorage.getItem('todos').charAt(0) === '['
+      localStorage.getItem('todos')?.charAt(0) === '[' &&
+      !(localStorage.getItem('todos')?.charAt(1) === ']')
     set({
       lists: hasLists ? JSON.parse(localStorage.getItem('todos')) : [],
       selectedListId: hasLists
