@@ -79,7 +79,7 @@
       class="navigation__form-input"
       bind:value={listNewTitle}
     />
-    <Button variant="dark" type="submit" icon="plus" />
+    <Button variant="ghost-negative" type="submit" icon="plus" />
   </form>
 </nav>
 
@@ -121,10 +121,10 @@
       }
 
       &.is-active {
+        padding: 1rem 1rem 1rem 0.75rem;
         font-weight: 600;
         color: var(--white-rich);
         background-color: var(--indigo-800);
-        padding: 1rem;
       }
     }
 

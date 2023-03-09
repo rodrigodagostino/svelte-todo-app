@@ -76,13 +76,13 @@
   {#if isTaskBeingEdited}
     <div class="task__actions">
       <Button
-        variant="neutral"
+        variant="ghost"
         icon="check"
         class="task__button-confirm"
         on:click={() => handleTaskChanges('confirm')}
       />
       <Button
-        variant="neutral"
+        variant="ghost"
         icon="times"
         class="task__button-cancel"
         on:click={() => handleTaskChanges('cancel')}
@@ -90,9 +90,9 @@
     </div>
   {:else}
     <div class="task__actions">
-      <Button variant="neutral" icon="pen" on:click={handleEditTask} />
+      <Button variant="ghost" icon="pen" on:click={handleEditTask} />
       <Button
-        variant="neutral"
+        variant="ghost"
         icon="trash-can"
         on:click={() => removeTask(listId, id)}
       />
@@ -164,6 +164,7 @@
     &__actions {
       margin-left: auto;
       display: flex;
+      gap: 0.25rem;
     }
 
     :global(.task__button-confirm) {

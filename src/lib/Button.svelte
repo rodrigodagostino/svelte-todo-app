@@ -4,7 +4,12 @@
   export let href: string = undefined
   export let target: '_self' | '_blank' = '_self'
   export let type: 'button' | 'submit' = 'button'
-  export let variant: 'main' | 'neutral' | 'dark' = 'neutral'
+  export let variant:
+    | 'neutral'
+    | 'neutral-dark'
+    | 'ghost'
+    | 'ghost-negative'
+    | 'ghost-dark' = 'ghost'
   export let size: 'small' | 'medium' | 'large' = 'small'
   export let icon:
     | 'check'
@@ -61,28 +66,38 @@
     font-weight: 600;
     text-transform: uppercase;
     text-decoration: none;
-    transition: color 0.24s, outline 0.24s;
+    transition: background-color 0.24s, color 0.24s, outline 0.24s;
     cursor: pointer;
 
     &:focus-visible {
       outline: 3px solid currentColor;
     }
 
-    &--main {
-      color: var(--indigo-500);
-      background-color: transparent;
-      border: 2px solid transparent;
+    &--neutral {
+      color: var(--gray-050);
+      background-color: var(--gray-600);
 
       &:focus,
       &:hover {
-        color: var(--indigo-400);
+        color: var(--white-rich);
+        background-color: var(--gray-400);
       }
     }
 
-    &--neutral {
+    &--neutral-dark {
+      color: var(--gray-100);
+      background-color: var(--gray-700);
+
+      &:focus,
+      &:hover {
+        color: var(--white-rich);
+        background-color: var(--gray-500);
+      }
+    }
+
+    &--ghost {
       color: var(--gray-400);
       background-color: transparent;
-      border: 2px solid transparent;
 
       &:focus,
       &:hover {
@@ -90,14 +105,23 @@
       }
     }
 
-    &--dark {
+    &--ghost-negative {
       color: var(--gray-100);
       background-color: transparent;
-      border: 2px solid transparent;
 
       &:focus,
       &:hover {
         color: var(--white-rich);
+      }
+    }
+
+    &--ghost-dark {
+      color: var(--gray-400);
+      background-color: transparent;
+
+      &:focus,
+      &:hover {
+        color: var(--indigo-400);
       }
     }
 

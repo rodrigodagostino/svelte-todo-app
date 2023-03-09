@@ -121,21 +121,21 @@
       {#if isListBeingEdited}
         <div class="list__actions">
           <Button
-            variant="neutral"
+            variant="ghost"
             icon="check"
             on:click={() => handleTitleChanges('confirm')}
           />
           <Button
-            variant="neutral"
+            variant="ghost"
             icon="times"
             on:click={() => handleTitleChanges('cancel')}
           />
         </div>
       {:else}
         <div class="list__actions">
-          <Button variant="neutral" icon="pen" on:click={triggerTitleEdit} />
+          <Button variant="ghost" icon="pen" on:click={triggerTitleEdit} />
           <Button
-            variant="neutral"
+            variant="ghost"
             icon="trash-can"
             on:click={() => removeList(id)}
           />
@@ -174,7 +174,7 @@
     </ul>
     <form class="list__form" on:submit|preventDefault={handleAddTask}>
       <input type="text" class="list__form-input" bind:value={taskNewTitle} />
-      <Button variant="neutral" type="submit" icon="plus" />
+      <Button variant="ghost" type="submit" icon="plus" />
     </form>
   </div>
 </section>
@@ -219,6 +219,7 @@
 
     &__actions {
       display: flex;
+      gap: 0.25rem;
     }
 
     &__content {
