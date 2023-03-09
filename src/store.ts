@@ -1,5 +1,6 @@
 import { writable, get } from 'svelte/store'
 import type { List } from './lib/List.svelte'
+import type { Notification } from './lib/Notification.svelte'
 
 interface ToDos {
   lists: List[]
@@ -24,6 +25,8 @@ export const toDos = writable<ToDos>(
   }
 )
 
+export const notifications = writable<Notification[]>([])
+
 export const setSelectedList = (listId) => {
   toDos.update((currData) => ({
     ...currData,
@@ -43,7 +46,7 @@ export const addList = (newList) => {
   let $toDos
   const unsubscribe = toDos.subscribe((currData) => ($toDos = currData))
 
-  const newLists = $toDos.lists ? [...$toDos.lists, newList] : [newList]
+  const newLists = [...$toDos.lists, newList]
   setLists(newLists)
   // Select the recently created list.
   setSelectedList($toDos.lists[$toDos.lists.length - 1].id)
@@ -71,6 +74,22 @@ export const editListTitle = (listId, newListTitle) => {
 
 export const removeList = (listId) => {
   const $toDos = get(toDos)
+
+  const currentList = $toDos.lists.filter((list) => list.id === listId)[0]
+  notifications.update((currData) => [
+    ...currData,
+    {
+      id: listId,
+      text: `List <strong>${currentList.title}</strong> has been removed!`,
+    },
+  ])
+  setTimeout(
+    () =>
+      notifications.update((currData) =>
+        currData.filter((item) => item.id !== listId)
+      ),
+    8000
+  )
 
   const listIndex = $toDos.lists.findIndex((list) => list.id === listId)
   // Select the previous list (if it exists) before deleting.
@@ -124,6 +143,24 @@ export const toggleTaskStatus = (listId, taskId) => {
 
 export const removeTask = (listId, taskId) => {
   const $toDos = get(toDos)
+
+  const currentTask = $toDos.lists
+    .filter((list) => list.id === listId)[0]
+    .tasks.filter((task) => task.id === taskId)[0]
+  notifications.update((currData) => [
+    ...currData,
+    {
+      id: taskId,
+      text: `Task <strong>${currentTask.title}</strong> has been removed!`,
+    },
+  ])
+  setTimeout(
+    () =>
+      notifications.update((currData) =>
+        currData.filter((item) => item.id !== taskId)
+      ),
+    8000
+  )
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)

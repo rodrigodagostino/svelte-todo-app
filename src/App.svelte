@@ -3,6 +3,7 @@
 
   import Navigation from './lib/Navigation.svelte'
   import List from './lib/List.svelte'
+  import Notifications from './lib/Notifications.svelte'
   import svelteLogo from './assets/images/svelte-logo.svg'
 </script>
 
@@ -32,6 +33,7 @@
     </a>
   </div>
 </footer>
+<Notifications />
 
 <style lang="scss">
   .container {
