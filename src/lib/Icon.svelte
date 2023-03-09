@@ -36,3 +36,9 @@
   size={sizeInNumbers[size]}
   {...$$restProps}
 />
+
+<style lang="scss">
+  :global(.icon) {
+    display: block;
+  }
+</style>
