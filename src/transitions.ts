@@ -6,6 +6,8 @@ export function fadeScale(
 ) {
   const h = +node.offsetHeight
   const style = getComputedStyle(node)
+  const mt = parseInt(style.marginTop, 10)
+  const mb = parseInt(style.marginBottom, 10)
   const target_opacity = +style.opacity
   const od = target_opacity * (1 - opacity)
   return {
@@ -13,9 +15,9 @@ export function fadeScale(
     duration,
     easing,
     css: (t, u) =>
-      `height: ${t * h}px; opacity: ${
-        target_opacity - od * u
-      }; overflow: hidden`,
+      `height: ${t * h}px; margin-top: ${t * mt}px; margin-bottom: ${
+        t * mb
+      }px; opacity: ${target_opacity - od * u}; overflow: hidden`,
   }
 }
 
