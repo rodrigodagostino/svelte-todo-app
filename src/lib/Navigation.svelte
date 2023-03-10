@@ -23,6 +23,7 @@
   const sortableOptions: SortableOptions = {
     handle: '.navigation__item-handle',
     ghostClass: 'navigation__item--ghost',
+    chosenClass: 'navigation__item--chosen',
     dragClass: 'navigation__item--drag',
     animation: 200,
     store: {
@@ -56,13 +57,13 @@
     {#each $toDos.lists as list (list.id)}
       <li
         class="navigation__item"
+        class:is-active={list.id === $toDos.selectedListId}
         data-id={list.id}
         in:flyScale|local={{ y: 64, duration: 320 }}
         out:fadeScale|local={{ duration: 320 }}
       >
         <button
           class="navigation__item-button"
-          class:is-active={list.id === $toDos.selectedListId}
           on:click={() => setSelectedList(list.id)}
         >
           <span class="navigation__item-handle">
@@ -87,18 +88,28 @@
   .navigation {
     color: var(--white);
 
-    &__items {
-      list-style: none;
-    }
-
     &__item {
-      &:global(.navigation__item--ghost) {
+      list-style: none;
+      background-color: var(--indigo-400);
+      transition: background-color 0.24s;
+
+      &.is-active {
+        background-color: var(--indigo-800);
+
+        .navigation__item-button {
+          padding: 1rem 1rem 1rem 0.75rem;
+          font-weight: 600;
+          color: var(--white-rich);
+        }
+      }
+
+      &:is(&--chosen) {
         background-color: rgba(79, 70, 229, 0.5);
         position: relative;
         z-index: 10;
       }
 
-      &:global(.navigation__item--drag) {
+      &:is(&--drag) {
         opacity: 0;
       }
     }
@@ -113,18 +124,11 @@
       outline: 3px solid transparent;
       font-size: 1.5rem;
       line-height: 1.2;
-      transition: background-color 0.24s, padding 0.24s, outline 0.24s;
+      transition: padding 0.24s, outline 0.24s;
       cursor: pointer;
 
       &:focus-visible {
         outline: 3px solid currentColor;
-      }
-
-      &.is-active {
-        padding: 1rem 1rem 1rem 0.75rem;
-        font-weight: 600;
-        color: var(--white-rich);
-        background-color: var(--indigo-800);
       }
     }
 

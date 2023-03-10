@@ -75,6 +75,7 @@
   const sortableOptions: SortableOptions = {
     handle: '.task__handle',
     ghostClass: 'list__task--ghost',
+    chosenClass: 'list__task--chosen',
     dragClass: 'list__task--drag',
     animation: 200,
     store: {
@@ -228,14 +229,17 @@
 
     &__task {
       list-style: none;
+      border-bottom: 1px solid var(--gray-200);
+      background-color: var(--white);
+      transition: background-color 0.24s;
 
-      :is(&--ghost) {
+      &:is(&--chosen) {
         background-color: var(--gray-100);
         position: relative;
         z-index: 10;
       }
 
-      :is(&--drag) {
+      &:is(&--drag) {
         opacity: 0;
       }
     }

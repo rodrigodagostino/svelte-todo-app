@@ -105,9 +105,6 @@
     display: flex;
     align-items: center;
     padding: 0.5rem 0;
-    border-bottom: 1px solid var(--gray-200);
-    background-color: var(--white);
-    transition: background-color 0.24s;
 
     &--done {
       .task__label {
