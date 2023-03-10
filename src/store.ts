@@ -27,6 +27,41 @@ export const toDos = writable<ToDos>(
 
 export const notifications = writable<Notification[]>([])
 
+const addNotification = (type, currentItem) => {
+  const notificationId = new Date().getTime()
+  const titleCasedType = type.charAt(0).toUpperCase() + type.slice(1)
+
+  notifications.update((currData) => [
+    ...currData,
+    {
+      id: notificationId,
+      type: type,
+      text: `${titleCasedType} <strong>${currentItem.title}</strong> was removed.`,
+      backup:
+        type === 'list'
+          ? currentItem
+          : {
+              listId: currentItem.listId,
+              id: currentItem.id,
+              title: currentItem.title,
+              isDone: currentItem.isDone,
+            },
+    },
+  ])
+  setTimeout(() => removeNotification(notificationId), 8000)
+}
+
+export const removeNotification = (notificationId) => {
+  const $notifications = get(notifications)
+  if (
+    $notifications.some((notification) => notification.id === notificationId)
+  ) {
+    notifications.update((currData) =>
+      currData.filter((item) => item.id !== notificationId)
+    )
+  }
+}
+
 export const setSelectedList = (listId) => {
   toDos.update((currData) => ({
     ...currData,
@@ -76,20 +111,7 @@ export const removeList = (listId) => {
   const $toDos = get(toDos)
 
   const currentList = $toDos.lists.filter((list) => list.id === listId)[0]
-  notifications.update((currData) => [
-    ...currData,
-    {
-      id: listId,
-      text: `List <strong>${currentList.title}</strong> has been removed!`,
-    },
-  ])
-  setTimeout(
-    () =>
-      notifications.update((currData) =>
-        currData.filter((item) => item.id !== listId)
-      ),
-    8000
-  )
+  addNotification('list', currentList)
 
   const listIndex = $toDos.lists.findIndex((list) => list.id === listId)
   // Select the previous list (if it exists) before deleting.
@@ -147,20 +169,7 @@ export const removeTask = (listId, taskId) => {
   const currentTask = $toDos.lists
     .filter((list) => list.id === listId)[0]
     .tasks.filter((task) => task.id === taskId)[0]
-  notifications.update((currData) => [
-    ...currData,
-    {
-      id: taskId,
-      text: `Task <strong>${currentTask.title}</strong> has been removed!`,
-    },
-  ])
-  setTimeout(
-    () =>
-      notifications.update((currData) =>
-        currData.filter((item) => item.id !== taskId)
-      ),
-    8000
-  )
+  addNotification('task', { listId, ...currentTask })
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)

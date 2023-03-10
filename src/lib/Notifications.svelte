@@ -13,10 +13,14 @@
   .notifications {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    align-items: center;
     position: fixed;
     left: 50%;
     bottom: 1.25rem;
     transform: translateX(-50%);
+
+    :global(.notification + .notification) {
+      margin-top: 0.75rem;
+    }
   }
 </style>

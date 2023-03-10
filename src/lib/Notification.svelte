@@ -1,29 +1,48 @@
 <script lang="ts" context="module">
+  import type { List } from './List.svelte'
+  import type { Task } from './Task.svelte'
+
   export interface Notification {
     id: number
+    type: 'list' | 'task'
     text: string
+    backup: List | Task
   }
 </script>
 
 <script lang="ts">
-  import { fade } from 'svelte/transition'
-  import { flyScale } from '../transitions'
+  import { fadeScale, flyScale } from '../transitions'
+  import { addList, addTask, removeNotification } from '../store'
 
-  import Icon from './Icon.svelte'
+  import Button from './Button.svelte'
 
   export let id: Notification['id']
+  export let type: Notification['type']
   export let text: Notification['text']
+  export let backup: Notification['backup']
+
+  const undoRemoval = () => {
+    type === 'list' ? addList(backup) : addTask(backup['listId'], backup)
+    removeNotification(id)
+  }
 </script>
 
 <div
   id={`notification-${id}`}
   class="notification"
   in:flyScale|local={{ y: 32, duration: 320 }}
-  out:fade|local={{ duration: 320 }}
+  out:fadeScale|local={{ duration: 320 }}
 >
   <div class="notification__inner">
-    <p>{@html text}</p>
-    <Icon icon="times" />
+    <p class="notification__text">
+      {@html text}
+    </p>
+    <Button variant="neutral-dark" on:click|once={undoRemoval}>Undo</Button>
+    <Button
+      variant="ghost-dark"
+      icon="times"
+      on:click|once={() => removeNotification(id)}
+    />
   </div>
 </div>
 
@@ -32,11 +51,10 @@
     &__inner {
       display: flex;
       gap: 1rem;
-      justify-content: space-between;
       align-items: center;
-      padding: 1rem 1rem 1rem 1.25rem;
+      padding: 0.75rem 1rem 0.75rem 1.5rem;
       background-color: var(--gray-900);
-      color: var(--white);
+      color: var(--gray-050);
       position: relative;
 
       &::after {
@@ -49,6 +67,17 @@
         background-color: var(--indigo-600);
         animation: progress 8s linear forwards;
       }
+    }
+
+    &__text {
+      :global(strong) {
+        color: var(--white-rich);
+        font-weight: 600;
+      }
+    }
+
+    :global(.button) {
+      flex: 0 0 auto;
     }
   }
 

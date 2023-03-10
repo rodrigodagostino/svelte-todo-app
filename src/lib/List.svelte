@@ -19,7 +19,7 @@
   export let title: List['title']
   export let tasks: List['tasks']
 
-  let titleRef
+  let titleRef: HTMLHeadingElement
 
   let isListBeingEdited = false
   let remainingTasks: string = null
@@ -57,7 +57,7 @@
   const triggerTitleEdit = () => {
     titlePrevContent = titleRef.textContent
     isListBeingEdited = true
-    titleRef.setAttribute('contenteditable', true)
+    titleRef.setAttribute('contenteditable', 'true')
     titleRef.focus()
   }
 
