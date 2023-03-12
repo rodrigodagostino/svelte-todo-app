@@ -2,7 +2,7 @@
   import Sortable, { type SortableOptions } from 'sortablejs'
   import { fly } from 'svelte/transition'
   import { fadeScale, flyScale } from '../transitions'
-  import { addList, setLists, setSelectedList, toDos } from '../store'
+  import { addList, setLists, setSelectedList, todos } from '../stores/todos'
 
   import Button from './Button.svelte'
   import Icon from './Icon.svelte'
@@ -28,12 +28,12 @@
     animation: 200,
     store: {
       get: () => {
-        const order = $toDos.lists.map((list) => `${list.id}`)
+        const order = $todos.lists.map((list) => `${list.id}`)
         return order ? order : []
       },
       set: (sortable) => {
         const order = sortable.toArray()
-        const reorderedLists = $toDos.lists.sort(
+        const reorderedLists = $todos.lists.sort(
           (a, b) => order.indexOf(`${a.id}`) - order.indexOf(`${b.id}`)
         )
         setLists(reorderedLists)
@@ -54,10 +54,10 @@
 
 <nav class="navigation" in:fly={{ y: 32, duration: 320, delay: 320 }}>
   <ul class="navigation__items" use:sortable={sortableOptions}>
-    {#each $toDos.lists as list (list.id)}
+    {#each $todos.lists as list (list.id)}
       <li
         class="navigation__item"
-        class:is-active={list.id === $toDos.selectedListId}
+        class:is-active={list.id === $todos.selectedListId}
         data-id={list.id}
         in:flyScale|local={{ y: 64, duration: 320 }}
         out:fadeScale|local={{ duration: 320 }}

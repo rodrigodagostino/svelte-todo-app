@@ -12,7 +12,8 @@
 
 <script lang="ts">
   import { fadeScale, flyScale } from '../transitions'
-  import { addList, addTask, removeNotification } from '../store'
+  import { addList, addTask } from '../stores/todos'
+  import { removeNotification } from '../stores/notifications'
 
   import Button from './Button.svelte'
 

@@ -1,13 +1,14 @@
 import { writable, get } from 'svelte/store'
-import type { List } from './lib/List.svelte'
-import type { Notification } from './lib/Notification.svelte'
+import type { List } from '../lib/List.svelte'
+import type { Task } from '../lib/Task.svelte'
+import { addNotification } from './notifications'
 
-interface ToDos {
+interface Todos {
   lists: List[]
   selectedListId: number
 }
 
-export const toDos = writable<ToDos>(
+export const todos = writable<Todos>(
   {
     lists: [],
     selectedListId: null,
@@ -25,61 +26,24 @@ export const toDos = writable<ToDos>(
   }
 )
 
-export const notifications = writable<Notification[]>([])
-
-const addNotification = (type, currentItem) => {
-  const notificationId = new Date().getTime()
-  const titleCasedType = type.charAt(0).toUpperCase() + type.slice(1)
-
-  notifications.update((currData) => [
-    ...currData,
-    {
-      id: notificationId,
-      type: type,
-      text: `${titleCasedType} <strong>${currentItem.title}</strong> was removed.`,
-      backup:
-        type === 'list'
-          ? currentItem
-          : {
-              listId: currentItem.listId,
-              id: currentItem.id,
-              title: currentItem.title,
-              isDone: currentItem.isDone,
-            },
-    },
-  ])
-  setTimeout(() => removeNotification(notificationId), 8000)
-}
-
-export const removeNotification = (notificationId) => {
-  const $notifications = get(notifications)
-  if (
-    $notifications.some((notification) => notification.id === notificationId)
-  ) {
-    notifications.update((currData) =>
-      currData.filter((item) => item.id !== notificationId)
-    )
-  }
-}
-
-export const setSelectedList = (listId) => {
-  toDos.update((currData) => ({
+export const setSelectedList = (listId: List['id']) => {
+  todos.update((currData) => ({
     ...currData,
     selectedListId: listId || null,
   }))
 }
 
-export const setLists = (value) => {
-  toDos.update((currData) => ({
+export const setLists = (value: Todos['lists']) => {
+  todos.update((currData) => ({
     ...currData,
     lists: value,
   }))
   localStorage.setItem('todos', JSON.stringify(value))
 }
 
-export const addList = (newList) => {
+export const addList = (newList: List) => {
   let $toDos
-  const unsubscribe = toDos.subscribe((currData) => ($toDos = currData))
+  const unsubscribe = todos.subscribe((currData) => ($toDos = currData))
 
   const newLists = [...$toDos.lists, newList]
   setLists(newLists)
@@ -89,8 +53,8 @@ export const addList = (newList) => {
   unsubscribe()
 }
 
-export const editList = (listId, newList) => {
-  const $toDos = get(toDos)
+export const editList = (listId: List['id'], newList: List) => {
+  const $toDos = get(todos)
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
@@ -98,8 +62,11 @@ export const editList = (listId, newList) => {
   setLists(newLists)
 }
 
-export const editListTitle = (listId, newListTitle) => {
-  const $toDos = get(toDos)
+export const editListTitle = (
+  listId: List['id'],
+  newListTitle: List['title']
+) => {
+  const $toDos = get(todos)
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
@@ -107,8 +74,8 @@ export const editListTitle = (listId, newListTitle) => {
   setLists(newLists)
 }
 
-export const removeList = (listId) => {
-  const $toDos = get(toDos)
+export const removeList = (listId: List['id']) => {
+  const $toDos = get(todos)
 
   const currentList = $toDos.lists.filter((list) => list.id === listId)[0]
   addNotification('list', currentList)
@@ -129,17 +96,21 @@ export const removeList = (listId) => {
   setLists(newLists)
 }
 
-export const addTask = (listId, newTaskData) => {
-  const $toDos = get(toDos)
+export const addTask = (listId: List['id'], newTask: Task) => {
+  const $toDos = get(todos)
 
-  const newLists = $toDos.lists
+  const newLists: List[] = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
-  newLists[targetListIndex].tasks.push(newTaskData)
+  newLists[targetListIndex].tasks.push(newTask)
   setLists(newLists)
 }
 
-export const editTask = (listId, taskId, newTaskTitle) => {
-  const $toDos = get(toDos)
+export const editTask = (
+  listId: List['id'],
+  taskId: Task['id'],
+  newTaskTitle: Task['title']
+) => {
+  const $toDos = get(todos)
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
@@ -150,8 +121,8 @@ export const editTask = (listId, taskId, newTaskTitle) => {
   setLists(newLists)
 }
 
-export const toggleTaskStatus = (listId, taskId) => {
-  const $toDos = get(toDos)
+export const toggleTaskStatus = (listId: List['id'], taskId: Task['id']) => {
+  const $toDos = get(todos)
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
@@ -163,13 +134,18 @@ export const toggleTaskStatus = (listId, taskId) => {
   setLists(newLists)
 }
 
-export const removeTask = (listId, taskId) => {
-  const $toDos = get(toDos)
+export const removeTask = (listId: List['id'], taskId: Task['id']) => {
+  const $toDos = get(todos)
 
   const currentTask = $toDos.lists
     .filter((list) => list.id === listId)[0]
     .tasks.filter((task) => task.id === taskId)[0]
-  addNotification('task', { listId, ...currentTask })
+  addNotification('task', {
+    listId,
+    id: currentTask.id,
+    title: currentTask.title,
+    isDone: currentTask.isDone,
+  })
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)

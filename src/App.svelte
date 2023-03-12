@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { toDos } from './store'
+  import { todos } from './stores/todos'
 
   import Navigation from './lib/Navigation.svelte'
   import List from './lib/List.svelte'
@@ -15,8 +15,8 @@
 <main class="app-main">
   <div class="container">
     <Navigation />
-    {#each $toDos.lists as list (list.id)}
-      {#if $toDos.selectedListId === list.id}
+    {#each $todos.lists as list (list.id)}
+      {#if $todos.selectedListId === list.id}
         <List id={list.id} title={list.title} tasks={list.tasks} />
       {/if}
     {/each}

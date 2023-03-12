@@ -8,7 +8,7 @@
 </script>
 
 <script lang="ts">
-  import { editTask, removeTask, toggleTaskStatus } from '../store'
+  import { editTask, removeTask, toggleTaskStatus } from '../stores/todos'
 
   import Button from './Button.svelte'
   import Icon from './Icon.svelte'

@@ -10,7 +10,7 @@
   import Sortable, { type SortableOptions } from 'sortablejs'
   import { fade, fly } from 'svelte/transition'
   import { fadeScale, flyScale } from '../transitions'
-  import { addTask, editList, editListTitle, removeList } from '../store'
+  import { addTask, editList, editListTitle, removeList } from '../stores/todos'
 
   import Button from './Button.svelte'
   import Task from './Task.svelte'
@@ -65,6 +65,7 @@
     if (!(taskNewTitle.trim() !== '')) return
 
     addTask(id, {
+      listId: id,
       id: new Date().getTime(),
       title: taskNewTitle,
       isDone: false,
