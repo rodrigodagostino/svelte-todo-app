@@ -1,14 +1,14 @@
 import { writable, get } from 'svelte/store'
-import type { List } from '../lib/List.svelte'
-import type { Task } from '../lib/Task.svelte'
+import type { IList } from '../lib/List.svelte'
+import type { ITask } from '../lib/Task.svelte'
 import { addNotification } from './notifications'
 
-interface Todos {
-  lists: List[]
+interface ITodos {
+  lists: IList[]
   selectedListId: number
 }
 
-export const todos = writable<Todos>(
+export const todos = writable<ITodos>(
   {
     lists: [],
     selectedListId: null,
@@ -26,14 +26,14 @@ export const todos = writable<Todos>(
   }
 )
 
-export const setSelectedList = (listId: List['id']) => {
+export const setSelectedList = (listId: IList['id']) => {
   todos.update((currData) => ({
     ...currData,
     selectedListId: listId || null,
   }))
 }
 
-export const setLists = (value: Todos['lists']) => {
+export const setLists = (value: ITodos['lists']) => {
   todos.update((currData) => ({
     ...currData,
     lists: value,
@@ -41,7 +41,7 @@ export const setLists = (value: Todos['lists']) => {
   localStorage.setItem('todos', JSON.stringify(value))
 }
 
-export const addList = (newList: List) => {
+export const addList = (newList: IList) => {
   let $toDos
   const unsubscribe = todos.subscribe((currData) => ($toDos = currData))
 
@@ -53,7 +53,7 @@ export const addList = (newList: List) => {
   unsubscribe()
 }
 
-export const editList = (listId: List['id'], newList: List) => {
+export const editList = (listId: IList['id'], newList: IList) => {
   const $toDos = get(todos)
 
   const newLists = $toDos.lists
@@ -63,8 +63,8 @@ export const editList = (listId: List['id'], newList: List) => {
 }
 
 export const editListTitle = (
-  listId: List['id'],
-  newListTitle: List['title']
+  listId: IList['id'],
+  newListTitle: IList['title']
 ) => {
   const $toDos = get(todos)
 
@@ -74,7 +74,7 @@ export const editListTitle = (
   setLists(newLists)
 }
 
-export const removeList = (listId: List['id']) => {
+export const removeList = (listId: IList['id']) => {
   const $toDos = get(todos)
 
   const currentList = $toDos.lists.filter((list) => list.id === listId)[0]
@@ -96,19 +96,19 @@ export const removeList = (listId: List['id']) => {
   setLists(newLists)
 }
 
-export const addTask = (listId: List['id'], newTask: Task) => {
+export const addTask = (listId: IList['id'], newTask: ITask) => {
   const $toDos = get(todos)
 
-  const newLists: List[] = $toDos.lists
+  const newLists: IList[] = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
   newLists[targetListIndex].tasks.push(newTask)
   setLists(newLists)
 }
 
 export const editTask = (
-  listId: List['id'],
-  taskId: Task['id'],
-  newTaskTitle: Task['title']
+  listId: IList['id'],
+  taskId: ITask['id'],
+  newTaskTitle: ITask['title']
 ) => {
   const $toDos = get(todos)
 
@@ -121,7 +121,7 @@ export const editTask = (
   setLists(newLists)
 }
 
-export const toggleTaskStatus = (listId: List['id'], taskId: Task['id']) => {
+export const toggleTaskStatus = (listId: IList['id'], taskId: ITask['id']) => {
   const $toDos = get(todos)
 
   const newLists = $toDos.lists
@@ -134,7 +134,7 @@ export const toggleTaskStatus = (listId: List['id'], taskId: Task['id']) => {
   setLists(newLists)
 }
 
-export const removeTask = (listId: List['id'], taskId: Task['id']) => {
+export const removeTask = (listId: IList['id'], taskId: ITask['id']) => {
   const $toDos = get(todos)
 
   const currentTask = $toDos.lists

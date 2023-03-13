@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  export interface Task {
+  export interface ITask {
     listId: number
     id: number
     title: string
@@ -13,22 +13,22 @@
   import Button from './Button.svelte'
   import Icon from './Icon.svelte'
 
-  export let listId: Task['listId']
-  export let id: Task['id']
-  export let title: Task['title']
-  export let isDone: Task['isDone']
+  export let listId: ITask['listId']
+  export let id: ITask['id']
+  export let title: ITask['title']
+  export let isDone: ITask['isDone']
 
-  let checkboxRef
-  let labelRef
+  let checkboxRef: HTMLInputElement
+  let labelRef: HTMLLabelElement
 
-  let labelPrevContent
+  let labelPrevContent: string
   let isTaskBeingEdited = false
 
   const handleEditTask = () => {
     labelPrevContent = labelRef.textContent
     isTaskBeingEdited = true
-    checkboxRef.setAttribute('disabled', true)
-    labelRef.setAttribute('contenteditable', true)
+    checkboxRef.setAttribute('disabled', 'true')
+    labelRef.setAttribute('contenteditable', 'true')
     labelRef.focus()
   }
 
@@ -41,7 +41,7 @@
     labelRef.removeAttribute('contenteditable')
   }
 
-  const handleOnKeydownTaskChanges = (event) => {
+  const handleOnKeydownTaskChanges = (event: KeyboardEvent) => {
     switch (event.key) {
       case 'Enter':
         handleTaskChanges('confirm')

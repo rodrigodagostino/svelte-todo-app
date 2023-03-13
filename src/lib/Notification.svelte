@@ -1,12 +1,12 @@
 <script lang="ts" context="module">
-  import type { List } from './List.svelte'
-  import type { Task } from './Task.svelte'
+  import type { IList } from './List.svelte'
+  import type { ITask } from './Task.svelte'
 
   export interface Notification {
     id: number
     type: 'list' | 'task'
     text: string
-    backup: List | Task
+    backup: IList | ITask
   }
 </script>
 
@@ -23,7 +23,9 @@
   export let backup: Notification['backup']
 
   const undoRemoval = () => {
-    type === 'list' ? addList(backup) : addTask(backup['listId'], backup)
+    type === 'list'
+      ? addList(backup as IList)
+      : addTask(backup['listId'], backup as ITask)
     removeNotification(id)
   }
 </script>

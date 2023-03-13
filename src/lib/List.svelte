@@ -1,8 +1,10 @@
 <script lang="ts" context="module">
-  export interface List {
+  import Task, { type ITask } from './Task.svelte'
+
+  export interface IList {
     id: number
     title: string
-    tasks: Task[]
+    tasks: ITask[]
   }
 </script>
 
@@ -13,11 +15,10 @@
   import { addTask, editList, editListTitle, removeList } from '../stores/todos'
 
   import Button from './Button.svelte'
-  import Task from './Task.svelte'
 
-  export let id: List['id']
-  export let title: List['title']
-  export let tasks: List['tasks']
+  export let id: IList['id']
+  export let title: IList['title']
+  export let tasks: IList['tasks']
 
   let titleRef: HTMLHeadingElement
 
@@ -32,8 +33,8 @@
       : 0
     remainingTasks = `${remaining} task${remaining !== 1 ? 's' : ''} remaining`
   }
-  let taskNewTitle = ''
-  let titlePrevContent
+  let taskNewTitle: string = ''
+  let titlePrevContent: string
 
   const handleTitleChanges = (action: 'confirm' | 'cancel') => {
     isListBeingEdited = false
@@ -43,7 +44,7 @@
     titleRef.removeAttribute('contenteditable')
   }
 
-  const handleOnKeydownTitleChanges = (event) => {
+  const handleOnKeydownTitleChanges = (event: KeyboardEvent) => {
     switch (event.key) {
       case 'Enter':
         handleTitleChanges('confirm')
@@ -95,7 +96,7 @@
     },
   }
 
-  const sortable = (element, options) => {
+  const sortable = (element: HTMLUListElement, options: SortableOptions) => {
     const instance = Sortable.create(element, options)
 
     return {

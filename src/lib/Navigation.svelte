@@ -7,7 +7,7 @@
   import Button from './Button.svelte'
   import Icon from './Icon.svelte'
 
-  let listNewTitle = ''
+  let listNewTitle: string = ''
 
   const handleAddList = () => {
     if (!(listNewTitle.trim() !== '')) return
@@ -41,7 +41,7 @@
     },
   }
 
-  const sortable = (element, options) => {
+  const sortable = (element: HTMLUListElement, options: SortableOptions) => {
     const instance = Sortable.create(element, options)
 
     return {
