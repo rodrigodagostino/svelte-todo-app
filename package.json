@@ -29,6 +29,7 @@
     "vite": "4.1.4"
   },
   "dependencies": {
-    "sortablejs": "1.15.0"
+    "sortablejs": "1.15.0",
+    "svelte-i18n": "3.6.0"
   }
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { todos } from './stores/todos'
+  import { _ } from 'svelte-i18n'
 
   import Navigation from './lib/Navigation.svelte'
   import List from './lib/List.svelte'
@@ -10,7 +11,7 @@
 
 <header class="app-header">
   <div class="container">
-    <h1 class="app-title">My To-Do Lists</h1>
+    <h1 class="app-title">{$_('appTitle')}</h1>
   </div>
 </header>
 <main class="app-main">

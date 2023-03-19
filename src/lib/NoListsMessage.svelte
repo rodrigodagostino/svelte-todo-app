@@ -1,5 +1,6 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition'
+  import { _ } from 'svelte-i18n'
 </script>
 
 <div
@@ -18,7 +19,7 @@
     />
   </svg>
   <h2 class="no-lists-message__text">
-    Create your first list to get yourself started!
+    {$_('noListsMessage')}
   </h2>
 </div>
 
