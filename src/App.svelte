@@ -43,7 +43,7 @@
 <style lang="scss">
   .container {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-gap: 3rem 2rem;
     align-items: start;
     max-width: 52rem;
