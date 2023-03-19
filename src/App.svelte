@@ -3,23 +3,28 @@
 
   import Navigation from './lib/Navigation.svelte'
   import List from './lib/List.svelte'
+  import NoListsMessage from './lib/NoListsMessage.svelte'
   import Notifications from './lib/Notifications.svelte'
   import svelteLogo from './assets/images/svelte-logo.svg'
 </script>
 
 <header class="app-header">
   <div class="container">
-    <h1 class="app-title">My To-Do List</h1>
+    <h1 class="app-title">My To-Do Lists</h1>
   </div>
 </header>
 <main class="app-main">
   <div class="container">
     <Navigation />
-    {#each $todos.lists as list (list.id)}
-      {#if $todos.selectedListId === list.id}
-        <List id={list.id} title={list.title} tasks={list.tasks} />
-      {/if}
-    {/each}
+    {#if !$todos.lists.length}
+      <NoListsMessage />
+    {:else}
+      {#each $todos.lists as list (list.id)}
+        {#if $todos.selectedListId === list.id}
+          <List id={list.id} title={list.title} tasks={list.tasks} />
+        {/if}
+      {/each}
+    {/if}
   </div>
 </main>
 <footer class="app-footer">
@@ -61,12 +66,6 @@
       text-transform: uppercase;
       white-space: nowrap;
       opacity: 0.4;
-    }
-  }
-
-  .app-main {
-    .container {
-      flex-direction: column;
     }
   }
 

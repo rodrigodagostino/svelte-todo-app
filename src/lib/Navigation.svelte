@@ -86,6 +86,8 @@
 
 <style lang="scss">
   .navigation {
+    // The following line will prevent the content from overflowing the grid column.
+    min-width: 0;
     color: var(--white);
 
     &__item {
