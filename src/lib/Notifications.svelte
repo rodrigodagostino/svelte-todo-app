@@ -14,6 +14,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: calc(100% - 2.5rem);
     position: fixed;
     left: 50%;
     bottom: 1.25rem;
