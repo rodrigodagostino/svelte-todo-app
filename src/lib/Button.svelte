@@ -18,11 +18,15 @@
     | 'plus'
     | 'times'
     | 'trash-can' = undefined
+
+  console.log($$restProps.class)
 </script>
 
 {#if href}
   <a
-    class="button button--{variant} button--{size} {$$restProps.class}"
+    class="button button--{variant} button--{size} {$$restProps.class
+      ? $$restProps.class
+      : ''}"
     {href}
     {target}
   >
@@ -37,7 +41,9 @@
   </a>
 {:else}
   <button
-    class="button button--{variant} button--{size} {$$restProps.class}"
+    class="button button--{variant} button--{size} {$$restProps.class
+      ? $$restProps.class
+      : ''}"
     {type}
     on:click
   >
