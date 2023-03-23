@@ -10,5 +10,6 @@
   "files.eol": "\n",
   "eslint.format.enable": true,
   "eslint.lintTask.enable": true,
-  "eslint.validate": ["javascript", "svelte", "javascriptreact"]
+  "eslint.validate": ["javascript", "svelte", "javascriptreact"],
+  "cSpell.words": ["todos"]
 }
