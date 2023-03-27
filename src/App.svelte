@@ -104,7 +104,7 @@
   @media screen and (min-width: 48em) {
     .app-main {
       .container {
-        grid-template-columns: 18rem auto;
+        grid-template-columns: 18rem minmax(0, 29.5rem);
       }
     }
   }
