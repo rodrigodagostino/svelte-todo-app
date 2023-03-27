@@ -203,7 +203,7 @@
 
     &__title {
       font-size: 2rem;
-      line-height: 1;
+      line-height: 1.1;
 
       &:is([contenteditable='true']) {
         outline: none;
