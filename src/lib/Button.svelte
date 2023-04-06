@@ -18,8 +18,6 @@
     | 'plus'
     | 'times'
     | 'trash-can' = undefined
-
-  console.log($$restProps.class)
 </script>
 
 {#if href}
