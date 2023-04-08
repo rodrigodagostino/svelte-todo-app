@@ -2,43 +2,43 @@
  * Fonts
  */
 @font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-display: swap;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 400;
   src: url("./assets/fonts/poppins-v20-latin-400.woff2") format("woff2"),
     /* Chrome 36+, Opera 23+, Firefox 39+ */
-      url("./assets/fonts/poppins-v20-latin-400.woff") format("woff"); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+      url("./assets/fonts/poppins-v20-latin-400.woff") format("woff");
 }
 
 @font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-display: swap;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 600;
   src: url("./assets/fonts/poppins-v20-latin-600.woff2") format("woff2"),
     /* Chrome 36+, Opera 23+, Firefox 39+ */
-      url("./assets/fonts/poppins-v20-latin-600.woff") format("woff"); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+      url("./assets/fonts/poppins-v20-latin-600.woff") format("woff");
 }
 
 @font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-display: swap;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 700;
   src: url("./assets/fonts/poppins-v20-latin-700.woff2") format("woff2"),
     /* Chrome 36+, Opera 23+, Firefox 39+ */
-      url("./assets/fonts/poppins-v20-latin-700.woff") format("woff"); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+      url("./assets/fonts/poppins-v20-latin-700.woff") format("woff");
 }
 
 @font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-display: swap;
   font-family: "Poppins";
   font-style: normal;
   font-weight: 900;
   src: url("./assets/fonts/poppins-v20-latin-900.woff2") format("woff2"),
     /* Chrome 36+, Opera 23+, Firefox 39+ */
-      url("./assets/fonts/poppins-v20-latin-900.woff") format("woff"); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+      url("./assets/fonts/poppins-v20-latin-900.woff") format("woff");
 }
 
 /**
@@ -87,13 +87,11 @@
  */
 html {
   box-sizing: border-box;
-  height: 100%;
 }
 
 *,
 *::before,
 *::after {
-  /* Inherit box-sizing to make it easier to change the property for components that leverage other behavior; see http://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/ */
   box-sizing: inherit;
 }
 
@@ -180,7 +178,6 @@ body {
   background-color: var(--indigo-400);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  height: 100%;
   display: flex;
   justify-content: center;
 }
