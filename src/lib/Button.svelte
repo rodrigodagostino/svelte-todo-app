@@ -18,43 +18,29 @@
     | 'plus'
     | 'times'
     | 'trash-can' = undefined
+
+  const element = href ? 'a' : 'button'
 </script>
 
-{#if href}
-  <a
-    class="button button--{variant} button--{size} {$$restProps.class
-      ? $$restProps.class
-      : ''}"
-    {href}
-    {target}
-  >
-    {#if icon}
-      <Icon {icon} {size} />
-    {/if}
-    {#if $$slots.default}
-      <span class="button__text">
-        <slot />
-      </span>
-    {/if}
-  </a>
-{:else}
-  <button
-    class="button button--{variant} button--{size} {$$restProps.class
-      ? $$restProps.class
-      : ''}"
-    {type}
-    on:click
-  >
-    {#if icon}
-      <Icon {icon} {size} />
-    {/if}
-    {#if $$slots.default}
-      <span class="button__text">
-        <slot />
-      </span>
-    {/if}
-  </button>
-{/if}
+<svelte:element
+  this={element}
+  class="button button--{variant} button--{size} {$$restProps.class
+    ? $$restProps.class
+    : ''}"
+  {href}
+  {target}
+  {type}
+  on:click
+>
+  {#if icon}
+    <Icon {icon} {size} />
+  {/if}
+  {#if $$slots.default}
+    <span class="button__text">
+      <slot />
+    </span>
+  {/if}
+</svelte:element>
 
 <style lang="scss">
   .button {
