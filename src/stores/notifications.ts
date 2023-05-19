@@ -24,11 +24,7 @@ export const addNotification = (
 
 export const removeNotification = (notificationId: Notification['id']) => {
   const $notifications = get(notifications)
-  if (
-    $notifications.some((notification) => notification.id === notificationId)
-  ) {
-    notifications.update((currData) =>
-      currData.filter((item) => item.id !== notificationId)
-    )
+  if ($notifications.some((notification) => notification.id === notificationId)) {
+    notifications.update((currData) => currData.filter((item) => item.id !== notificationId))
   }
 }

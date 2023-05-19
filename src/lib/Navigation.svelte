@@ -62,10 +62,7 @@
         in:flyScale|local={{ y: 64, duration: 320 }}
         out:fadeScale|local={{ duration: 320 }}
       >
-        <button
-          class="navigation__item-button"
-          on:click={() => setSelectedList(list.id)}
-        >
+        <button class="navigation__item-button" on:click={() => setSelectedList(list.id)}>
           <span class="navigation__item-handle">
             <Icon icon="grip-dots-vertical" />
           </span>
@@ -75,11 +72,7 @@
     {/each}
   </ul>
   <form class="navigation__form" on:submit|preventDefault={handleAddList}>
-    <input
-      type="text"
-      class="navigation__form-input"
-      bind:value={listNewTitle}
-    />
+    <input type="text" class="navigation__form-input" bind:value={listNewTitle} />
     <Button variant="ghost-negative" type="submit" icon="plus" />
   </form>
 </nav>

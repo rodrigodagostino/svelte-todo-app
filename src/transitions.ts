@@ -1,9 +1,6 @@
 import { cubicOut, quadOut } from 'svelte/easing'
 
-export function fadeScale(
-  node,
-  { delay = 0, duration = 400, easing = quadOut, opacity = 0 } = {}
-) {
+export function fadeScale(node, { delay = 0, duration = 400, easing = quadOut, opacity = 0 } = {}) {
   const h = +node.offsetHeight
   const style = getComputedStyle(node)
   const mt = parseInt(style.marginTop, 10)
@@ -15,22 +12,15 @@ export function fadeScale(
     duration,
     easing,
     css: (t, u) =>
-      `height: ${t * h}px; margin-top: ${t * mt}px; margin-bottom: ${
-        t * mb
-      }px; opacity: ${target_opacity - od * u}; overflow: hidden`,
+      `height: ${t * h}px; margin-top: ${t * mt}px; margin-bottom: ${t * mb}px; opacity: ${
+        target_opacity - od * u
+      }; overflow: hidden`,
   }
 }
 
 export function flyScale(
   node,
-  {
-    delay = 0,
-    duration = 400,
-    easing = cubicOut,
-    x = 0,
-    y = 0,
-    opacity = 0,
-  } = {}
+  { delay = 0, duration = 400, easing = cubicOut, x = 0, y = 0, opacity = 0 } = {}
 ) {
   const h = +node.offsetHeight
   const style = getComputedStyle(node)
@@ -42,9 +32,7 @@ export function flyScale(
     duration,
     easing,
     css: (t, u) =>
-      `height: ${t * h}px; transform: ${transform} translate(${
-        (1 - t) * x
-      }px, ${(1 - t) * y}px);
+      `height: ${t * h}px; transform: ${transform} translate(${(1 - t) * x}px, ${(1 - t) * y}px);
     opacity: ${target_opacity - od * u}; overflow: hidden`,
   }
 }

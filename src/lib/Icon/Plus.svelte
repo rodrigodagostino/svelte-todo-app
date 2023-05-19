@@ -2,12 +2,7 @@
   export let size: string
 </script>
 
-<svg
-  class="icon icon--plus"
-  xmlns="http://www.w3.org/2000/svg"
-  height={size}
-  viewBox="0 0 512 512"
->
+<svg class="icon icon--plus" xmlns="http://www.w3.org/2000/svg" height={size} viewBox="0 0 512 512">
   <!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) -->
   <path
     fill="currentColor"

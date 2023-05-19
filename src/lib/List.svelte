@@ -26,10 +26,7 @@
   let remainingTasks: string = null
   $: {
     const remaining = tasks.length
-      ? tasks.reduce(
-          (total, currentValue) => (!currentValue.isDone ? total + 1 : total),
-          0
-        )
+      ? tasks.reduce((total, currentValue) => (!currentValue.isDone ? total + 1 : total), 0)
       : 0
     remainingTasks = `${remaining} task${remaining !== 1 ? 's' : ''} remaining`
   }
@@ -107,11 +104,7 @@
   }
 </script>
 
-<section
-  class="list"
-  in:fly={{ y: 32, duration: 320, delay: 320 }}
-  out:fade={{ duration: 320 }}
->
+<section class="list" in:fly={{ y: 32, duration: 320, delay: 320 }} out:fade={{ duration: 320 }}>
   <header class="list__header">
     <div class="list__header-top">
       <h2
@@ -123,33 +116,18 @@
       </h2>
       {#if isListBeingEdited}
         <div class="list__actions">
-          <Button
-            variant="ghost"
-            icon="check"
-            on:click={() => handleTitleChanges('confirm')}
-          />
-          <Button
-            variant="ghost"
-            icon="times"
-            on:click={() => handleTitleChanges('cancel')}
-          />
+          <Button variant="ghost" icon="check" on:click={() => handleTitleChanges('confirm')} />
+          <Button variant="ghost" icon="times" on:click={() => handleTitleChanges('cancel')} />
         </div>
       {:else}
         <div class="list__actions">
           <Button variant="ghost" icon="pen" on:click={triggerTitleEdit} />
-          <Button
-            variant="ghost"
-            icon="trash-can"
-            on:click={() => removeList(id)}
-          />
+          <Button variant="ghost" icon="trash-can" on:click={() => removeList(id)} />
         </div>
       {/if}
     </div>
     {#if tasks.length}
-      <div
-        class="list__header-bottom"
-        transition:fadeScale|local={{ duration: 320 }}
-      >
+      <div class="list__header-bottom" transition:fadeScale|local={{ duration: 320 }}>
         <p class="list__subhead">
           {remainingTasks}
         </p>
@@ -166,12 +144,7 @@
           in:flyScale|local={{ y: 64, duration: 320 }}
           out:fadeScale|local={{ duration: 320 }}
         >
-          <Task
-            listId={id}
-            id={task.id}
-            title={task.title}
-            isDone={task.isDone}
-          />
+          <Task listId={id} id={task.id} title={task.title} isDone={task.isDone} />
         </li>
       {/each}
     </ul>

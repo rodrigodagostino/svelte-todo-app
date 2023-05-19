@@ -6,13 +6,7 @@
   import Times from './Icon/Times.svelte'
   import TrashCan from './Icon/TrashCan.svelte'
 
-  export let icon:
-    | 'check'
-    | 'grip-dots-vertical'
-    | 'pen'
-    | 'plus'
-    | 'times'
-    | 'trash-can'
+  export let icon: 'check' | 'grip-dots-vertical' | 'pen' | 'plus' | 'times' | 'trash-can'
   export let size: 'small' | 'medium' | 'large' = 'small'
 
   const iconComponents = {
@@ -31,11 +25,7 @@
   }
 </script>
 
-<svelte:component
-  this={iconComponents[icon]}
-  size={sizeInNumbers[size]}
-  {...$$restProps}
-/>
+<svelte:component this={iconComponents[icon]} size={sizeInNumbers[size]} {...$$restProps} />
 
 <style lang="scss">
   :global(.icon) {

@@ -1,34 +1,21 @@
 <script lang="ts">
   import Icon from './Icon.svelte'
 
-  export let variant:
-    | 'neutral'
-    | 'neutral-dark'
-    | 'ghost'
-    | 'ghost-negative'
-    | 'ghost-dark' = 'ghost'
+  export let variant: 'neutral' | 'neutral-dark' | 'ghost' | 'ghost-negative' | 'ghost-dark' =
+    'ghost'
   export let size: 'small' | 'medium' | 'large' = 'small'
   export let href: string | undefined = undefined
   export let target: '_self' | '_blank' | undefined = href ? '_self' : undefined
-  export let type: 'button' | 'submit' | undefined = !href
-    ? 'button'
-    : undefined
-  export let icon:
-    | 'check'
-    | 'grip-dots-vertical'
-    | 'pen'
-    | 'plus'
-    | 'times'
-    | 'trash-can' = undefined
+  export let type: 'button' | 'submit' | undefined = !href ? 'button' : undefined
+  export let icon: 'check' | 'grip-dots-vertical' | 'pen' | 'plus' | 'times' | 'trash-can' =
+    undefined
 
   const element = href ? 'a' : 'button'
 </script>
 
 <svelte:element
   this={element}
-  class="button button--{variant} button--{size} {$$restProps.class
-    ? $$restProps.class
-    : ''}"
+  class="button button--{variant} button--{size} {$$restProps.class ? $$restProps.class : ''}"
   {href}
   {target}
   {type}

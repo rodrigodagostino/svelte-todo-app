@@ -8,11 +8,7 @@
   in:fly={{ y: 32, duration: 320, delay: 320 }}
   out:fade={{ duration: 320 }}
 >
-  <svg
-    class="no-lists-message__arrow"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 256 256"
-  >
+  <svg class="no-lists-message__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
     <path
       d="M250.394 253.6C213.018 120.819 131.613 55.589 31.6 20.383c3.23 3.753 6.651 7.459 9.122 11.83 2.851 4.989-4.276 11.023-8.315 6.414C23.57 28.412 14.353 19.385 3.092 11.878-3.037 7.744.669-1.236 7.891.142c15.536 2.899 31.453 2.566 47.085.38 9.407-1.33 11.26 12.069 1.568 13.066-5.037.475-19.861-1.33-15.204.523 104.479 41.811 179.676 79.792 214.518 237.811.61 2.767-.848 4.061-2.436 4.078-1.235.013-2.548-.697-3.028-2.4Z"
       fill="currentColor"
@@ -25,15 +21,12 @@
 
 <style lang="scss">
   @font-face {
-    font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-display: swap;
     font-family: 'Gloria Hallelujah';
     font-style: normal;
     font-weight: 400;
-    src: url('../assets/fonts/gloria-hallelujah-v17-latin-400.woff2')
-        format('woff2'),
-      /* Chrome 36+, Opera 23+, Firefox 39+ */
-        url('../assets/fonts/gloria-hallelujah-v17-latin-400.woff')
-        format('woff'); /* Chrome 5+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    src: url('../assets/fonts/gloria-hallelujah-v17-latin-400.woff2') format('woff2'),
+      url('../assets/fonts/gloria-hallelujah-v17-latin-400.woff') format('woff');
   }
 
   .no-lists-message {

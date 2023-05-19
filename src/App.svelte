@@ -30,11 +30,7 @@
 </main>
 <footer class="app-footer">
   <div class="container">
-    <a
-      href="https://github.com/rodrigodagostino/svelte-todo-app"
-      target="_blank"
-      rel="noreferrer"
-    >
+    <a href="https://github.com/rodrigodagostino/svelte-todo-app" target="_blank" rel="noreferrer">
       Made with <img src={svelteLogo} alt="Svelte.js logo" /> by Rodrigo D’Agostino
     </a>
   </div>

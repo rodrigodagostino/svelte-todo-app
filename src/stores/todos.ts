@@ -19,9 +19,7 @@ export const todos = writable<ITodos>(
       !(localStorage.getItem('todos')?.charAt(1) === ']')
     set({
       lists: hasLists ? JSON.parse(localStorage.getItem('todos')) : [],
-      selectedListId: hasLists
-        ? JSON.parse(localStorage.getItem('todos'))[0].id
-        : null,
+      selectedListId: hasLists ? JSON.parse(localStorage.getItem('todos'))[0].id : null,
     })
   }
 )
@@ -62,10 +60,7 @@ export const editList = (listId: IList['id'], newList: IList) => {
   setLists(newLists)
 }
 
-export const editListTitle = (
-  listId: IList['id'],
-  newListTitle: IList['title']
-) => {
+export const editListTitle = (listId: IList['id'], newListTitle: IList['title']) => {
   const $toDos = get(todos)
 
   const newLists = $toDos.lists
@@ -114,9 +109,7 @@ export const editTask = (
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
-  const targetTaskIndex = newLists[targetListIndex].tasks.findIndex(
-    (task) => task.id === taskId
-  )
+  const targetTaskIndex = newLists[targetListIndex].tasks.findIndex((task) => task.id === taskId)
   newLists[targetListIndex].tasks[targetTaskIndex].title = newTaskTitle
   setLists(newLists)
 }
@@ -126,9 +119,7 @@ export const toggleTaskStatus = (listId: IList['id'], taskId: ITask['id']) => {
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
-  const targetTaskIndex = newLists[targetListIndex].tasks.findIndex(
-    (task) => task.id === taskId
-  )
+  const targetTaskIndex = newLists[targetListIndex].tasks.findIndex((task) => task.id === taskId)
   newLists[targetListIndex].tasks[targetTaskIndex].isDone =
     !newLists[targetListIndex].tasks[targetTaskIndex].isDone
   setLists(newLists)
@@ -149,9 +140,7 @@ export const removeTask = (listId: IList['id'], taskId: ITask['id']) => {
 
   const newLists = $toDos.lists
   const targetListIndex = newLists.findIndex((list) => list.id === listId)
-  const targetTaskIndex = newLists[targetListIndex].tasks.findIndex(
-    (task) => task.id === taskId
-  )
+  const targetTaskIndex = newLists[targetListIndex].tasks.findIndex((task) => task.id === taskId)
   newLists[targetListIndex].tasks.splice(targetTaskIndex, 1)
   setLists(newLists)
 }

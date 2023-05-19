@@ -91,11 +91,7 @@
   {:else}
     <div class="task__actions">
       <Button variant="ghost" icon="pen" on:click={handleEditTask} />
-      <Button
-        variant="ghost"
-        icon="trash-can"
-        on:click={() => removeTask(listId, id)}
-      />
+      <Button variant="ghost" icon="trash-can" on:click={() => removeTask(listId, id)} />
     </div>
   {/if}
 </div>

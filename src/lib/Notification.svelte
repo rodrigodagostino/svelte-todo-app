@@ -23,9 +23,7 @@
   export let backup: Notification['backup']
 
   const undoRemoval = () => {
-    type === 'list'
-      ? addList(backup as IList)
-      : addTask(backup['listId'], backup as ITask)
+    type === 'list' ? addList(backup as IList) : addTask(backup['listId'], backup as ITask)
     removeNotification(id)
   }
 </script>
@@ -41,11 +39,7 @@
       {@html text}
     </p>
     <Button variant="neutral-dark" on:click|once={undoRemoval}>Undo</Button>
-    <Button
-      variant="ghost-dark"
-      icon="times"
-      on:click|once={() => removeNotification(id)}
-    />
+    <Button variant="ghost-dark" icon="times" on:click|once={() => removeNotification(id)} />
   </div>
 </div>
 
