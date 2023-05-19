@@ -1,9 +1,6 @@
 <script lang="ts">
   import Icon from './Icon.svelte'
 
-  export let href: string = undefined
-  export let target: '_self' | '_blank' = '_self'
-  export let type: 'button' | 'submit' = 'button'
   export let variant:
     | 'neutral'
     | 'neutral-dark'
@@ -11,6 +8,11 @@
     | 'ghost-negative'
     | 'ghost-dark' = 'ghost'
   export let size: 'small' | 'medium' | 'large' = 'small'
+  export let href: string | undefined = undefined
+  export let target: '_self' | '_blank' | undefined = href ? '_self' : undefined
+  export let type: 'button' | 'submit' | undefined = !href
+    ? 'button'
+    : undefined
   export let icon:
     | 'check'
     | 'grip-dots-vertical'
