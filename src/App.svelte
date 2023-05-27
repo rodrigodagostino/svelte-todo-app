@@ -63,6 +63,7 @@
       text-transform: uppercase;
       white-space: nowrap;
       opacity: 0.4;
+      user-select: none;
     }
   }
 

@@ -128,9 +128,7 @@
     </div>
     {#if tasks.length}
       <div class="list__header-bottom" transition:fadeScale|local={{ duration: 320 }}>
-        <p class="list__subhead">
-          {remainingTasks}
-        </p>
+        <p class="list__subhead">{remainingTasks}</p>
       </div>
     {/if}
   </header>
@@ -191,6 +189,7 @@
 
     &__subhead {
       font-size: 1rem;
+      user-select: none;
     }
 
     &__actions {
