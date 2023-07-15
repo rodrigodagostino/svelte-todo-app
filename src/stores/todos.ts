@@ -40,7 +40,7 @@ export const setLists = (value: ITodos['lists']) => {
 }
 
 export const addList = (newList: IList) => {
-  let $toDos
+  let $toDos: ITodos
   const unsubscribe = todos.subscribe((currData) => ($toDos = currData))
 
   const newLists = [...$toDos.lists, newList]
