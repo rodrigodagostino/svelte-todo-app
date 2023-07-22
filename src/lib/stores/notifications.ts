@@ -1,5 +1,5 @@
 import { writable, get } from 'svelte/store'
-import type { Notification } from '../lib/Notification.svelte'
+import type { Notification } from '../components/Notification.svelte'
 
 export const notifications = writable<Notification[]>([])
 

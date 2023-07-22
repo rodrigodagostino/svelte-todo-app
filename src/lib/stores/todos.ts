@@ -1,6 +1,6 @@
 import { writable, get } from 'svelte/store'
-import type { IList } from '../lib/List.svelte'
-import type { ITask } from '../lib/Task.svelte'
+import type { IList } from '../components/List.svelte'
+import type { ITask } from '../components/Task.svelte'
 import { addNotification } from './notifications'
 
 interface ITodos {
