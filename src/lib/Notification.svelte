@@ -35,7 +35,8 @@
   out:fadeScale|local={{ duration: 320 }}
 >
   <div class="notification__inner">
-    <p class="notification__text">
+    <p class="notification__text" role="status">
+      <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html text}
     </p>
     <Button variant="neutral-dark" on:click|once={undoRemoval}>Undo</Button>
