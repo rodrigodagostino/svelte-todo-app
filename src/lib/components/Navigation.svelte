@@ -1,24 +1,24 @@
 <script lang="ts">
-  import Sortable, { type SortableOptions } from 'sortablejs'
-  import { fly } from 'svelte/transition'
-  import { fadeScale, flyScale } from '../transitions'
-  import { addList, setLists, setSelectedList, todos } from '../stores/todos'
+  import Sortable, { type SortableOptions } from 'sortablejs';
+  import { fly } from 'svelte/transition';
+  import { fadeScale, flyScale } from '../transitions';
+  import { addList, setLists, setSelectedList, todos } from '../stores/todos';
 
-  import Button from './Button.svelte'
-  import Icon from './Icon.svelte'
+  import Button from './Button.svelte';
+  import Icon from './Icon.svelte';
 
-  let listNewTitle: string = ''
+  let listNewTitle: string = '';
 
   const handleAddList = () => {
-    if (!(listNewTitle.trim() !== '')) return
+    if (!(listNewTitle.trim() !== '')) return;
 
     addList({
       id: new Date().getTime(),
       title: listNewTitle,
       tasks: [],
-    })
-    listNewTitle = ''
-  }
+    });
+    listNewTitle = '';
+  };
 
   const sortableOptions: SortableOptions = {
     handle: '.navigation__item-handle',
@@ -28,28 +28,28 @@
     animation: 200,
     store: {
       get: () => {
-        const order = $todos.lists.map((list) => `${list.id}`)
-        return order ? order : []
+        const order = $todos.lists.map((list) => `${list.id}`);
+        return order ? order : [];
       },
       set: (sortable) => {
-        const order = sortable.toArray()
+        const order = sortable.toArray();
         const reorderedLists = $todos.lists.sort(
           (a, b) => order.indexOf(`${a.id}`) - order.indexOf(`${b.id}`)
-        )
-        setLists(reorderedLists)
+        );
+        setLists(reorderedLists);
       },
     },
-  }
+  };
 
   const sortable = (element: HTMLUListElement, options: SortableOptions) => {
-    const instance = Sortable.create(element, options)
+    const instance = Sortable.create(element, options);
 
     return {
       destroy() {
-        instance.destroy
+        instance.destroy;
       },
-    }
-  }
+    };
+  };
 </script>
 
 <nav class="navigation" in:fly={{ y: 32, duration: 320, delay: 320 }}>

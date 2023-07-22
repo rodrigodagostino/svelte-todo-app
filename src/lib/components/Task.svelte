@@ -1,56 +1,56 @@
 <script lang="ts" context="module">
   export interface ITask {
-    listId: number
-    id: number
-    title: string
-    isDone: boolean
+    listId: number;
+    id: number;
+    title: string;
+    isDone: boolean;
   }
 </script>
 
 <script lang="ts">
-  import { editTask, removeTask, toggleTaskStatus } from '../stores/todos'
+  import { editTask, removeTask, toggleTaskStatus } from '../stores/todos';
 
-  import Button from './Button.svelte'
-  import Icon from './Icon.svelte'
+  import Button from './Button.svelte';
+  import Icon from './Icon.svelte';
 
-  export let listId: ITask['listId']
-  export let id: ITask['id']
-  export let title: ITask['title']
-  export let isDone: ITask['isDone']
+  export let listId: ITask['listId'];
+  export let id: ITask['id'];
+  export let title: ITask['title'];
+  export let isDone: ITask['isDone'];
 
-  let checkboxRef: HTMLInputElement
-  let labelRef: HTMLLabelElement
+  let checkboxRef: HTMLInputElement;
+  let labelRef: HTMLLabelElement;
 
-  let labelPrevContent: string
-  let isTaskBeingEdited = false
+  let labelPrevContent: string;
+  let isTaskBeingEdited = false;
 
   const handleEditTask = () => {
-    labelPrevContent = labelRef.textContent
-    isTaskBeingEdited = true
-    checkboxRef.setAttribute('disabled', 'true')
-    labelRef.setAttribute('contenteditable', 'true')
-    labelRef.focus()
-  }
+    labelPrevContent = labelRef.textContent;
+    isTaskBeingEdited = true;
+    checkboxRef.setAttribute('disabled', 'true');
+    labelRef.setAttribute('contenteditable', 'true');
+    labelRef.focus();
+  };
 
   const handleTaskChanges = (action: 'confirm' | 'cancel') => {
-    isTaskBeingEdited = false
+    isTaskBeingEdited = false;
     action === 'confirm'
       ? editTask(listId, id, labelRef.textContent)
-      : (labelRef.textContent = labelPrevContent)
-    checkboxRef.removeAttribute('disabled')
-    labelRef.removeAttribute('contenteditable')
-  }
+      : (labelRef.textContent = labelPrevContent);
+    checkboxRef.removeAttribute('disabled');
+    labelRef.removeAttribute('contenteditable');
+  };
 
   const handleOnKeydownTaskChanges = (event: KeyboardEvent) => {
     switch (event.key) {
       case 'Enter':
-        handleTaskChanges('confirm')
-        break
+        handleTaskChanges('confirm');
+        break;
       case 'Escape':
-        handleTaskChanges('cancel')
-        break
+        handleTaskChanges('cancel');
+        break;
     }
-  }
+  };
 </script>
 
 <div class="task" class:task--done={isDone}>

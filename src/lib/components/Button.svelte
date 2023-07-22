@@ -1,16 +1,16 @@
 <script lang="ts">
-  import Icon from './Icon.svelte'
+  import Icon from './Icon.svelte';
 
   export let variant: 'neutral' | 'neutral-dark' | 'ghost' | 'ghost-negative' | 'ghost-dark' =
-    'ghost'
-  export let size: 'small' | 'medium' | 'large' = 'small'
-  export let href: string | undefined = undefined
-  export let target: '_self' | '_blank' | undefined = href ? '_self' : undefined
-  export let type: 'button' | 'submit' | undefined = !href ? 'button' : undefined
+    'ghost';
+  export let size: 'small' | 'medium' | 'large' = 'small';
+  export let href: string | undefined = undefined;
+  export let target: '_self' | '_blank' | undefined = href ? '_self' : undefined;
+  export let type: 'button' | 'submit' | undefined = !href ? 'button' : undefined;
   export let icon: 'check' | 'grip-dots-vertical' | 'pen' | 'plus' | 'times' | 'trash-can' =
-    undefined
+    undefined;
 
-  const element = href ? 'a' : 'button'
+  const element = href ? 'a' : 'button';
 </script>
 
 <svelte:element

@@ -1,31 +1,31 @@
 <script lang="ts" context="module">
-  import type { IList } from './List.svelte'
-  import type { ITask } from './Task.svelte'
+  import type { IList } from './List.svelte';
+  import type { ITask } from './Task.svelte';
 
   export interface Notification {
-    id: number
-    type: 'list' | 'task'
-    text: string
-    backup: IList | ITask
+    id: number;
+    type: 'list' | 'task';
+    text: string;
+    backup: IList | ITask;
   }
 </script>
 
 <script lang="ts">
-  import { fadeScale, flyScale } from '../transitions'
-  import { addList, addTask } from '../stores/todos'
-  import { removeNotification } from '../stores/notifications'
+  import { fadeScale, flyScale } from '../transitions';
+  import { addList, addTask } from '../stores/todos';
+  import { removeNotification } from '../stores/notifications';
 
-  import Button from './Button.svelte'
+  import Button from './Button.svelte';
 
-  export let id: Notification['id']
-  export let type: Notification['type']
-  export let text: Notification['text']
-  export let backup: Notification['backup']
+  export let id: Notification['id'];
+  export let type: Notification['type'];
+  export let text: Notification['text'];
+  export let backup: Notification['backup'];
 
   const undoRemoval = () => {
-    type === 'list' ? addList(backup as IList) : addTask(backup['listId'], backup as ITask)
-    removeNotification(id)
-  }
+    type === 'list' ? addList(backup as IList) : addTask(backup['listId'], backup as ITask);
+    removeNotification(id);
+  };
 </script>
 
 <div

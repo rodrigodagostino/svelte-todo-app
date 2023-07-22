@@ -1,75 +1,75 @@
 <script lang="ts" context="module">
-  import Task, { type ITask } from './Task.svelte'
+  import Task, { type ITask } from './Task.svelte';
 
   export interface IList {
-    id: number
-    title: string
-    tasks: ITask[]
+    id: number;
+    title: string;
+    tasks: ITask[];
   }
 </script>
 
 <script lang="ts">
-  import Sortable, { type SortableOptions } from 'sortablejs'
-  import { fade, fly } from 'svelte/transition'
-  import { fadeScale, flyScale } from '../transitions'
-  import { addTask, editList, editListTitle, removeList } from '../stores/todos'
+  import Sortable, { type SortableOptions } from 'sortablejs';
+  import { fade, fly } from 'svelte/transition';
+  import { fadeScale, flyScale } from '../transitions';
+  import { addTask, editList, editListTitle, removeList } from '../stores/todos';
 
-  import Button from './Button.svelte'
+  import Button from './Button.svelte';
 
-  export let id: IList['id']
-  export let title: IList['title']
-  export let tasks: IList['tasks']
+  export let id: IList['id'];
+  export let title: IList['title'];
+  export let tasks: IList['tasks'];
 
-  let titleRef: HTMLHeadingElement
+  let titleRef: HTMLHeadingElement;
 
-  let isListBeingEdited = false
-  let remainingTasks: string = null
+  let isListBeingEdited = false;
+  let remainingTasks: string = null;
   $: {
     const remaining = tasks.length
       ? tasks.reduce((total, currentValue) => (!currentValue.isDone ? total + 1 : total), 0)
-      : 0
-    remainingTasks = `${remaining} task${remaining !== 1 ? 's' : ''} remaining`
+      : 0;
+    remainingTasks = `${remaining} task${remaining !== 1 ? 's' : ''} remaining`;
   }
-  let taskNewTitle: string = ''
-  let titlePrevContent: string
+  let taskNewTitle: string = '';
+  let titlePrevContent: string;
 
   const handleTitleChanges = (action: 'confirm' | 'cancel') => {
-    isListBeingEdited = false
+    isListBeingEdited = false;
     action === 'confirm'
       ? editListTitle(id, titleRef.textContent)
-      : (titleRef.textContent = titlePrevContent)
-    titleRef.removeAttribute('contenteditable')
-  }
+      : (titleRef.textContent = titlePrevContent);
+    titleRef.removeAttribute('contenteditable');
+  };
 
   const handleOnKeydownTitleChanges = (event: KeyboardEvent) => {
     switch (event.key) {
       case 'Enter':
-        handleTitleChanges('confirm')
-        break
+        handleTitleChanges('confirm');
+        break;
       case 'Escape':
-        handleTitleChanges('cancel')
-        break
+        handleTitleChanges('cancel');
+        break;
     }
-  }
+  };
 
   const triggerTitleEdit = () => {
-    titlePrevContent = titleRef.textContent
-    isListBeingEdited = true
-    titleRef.setAttribute('contenteditable', 'true')
-    titleRef.focus()
-  }
+    titlePrevContent = titleRef.textContent;
+    isListBeingEdited = true;
+    titleRef.setAttribute('contenteditable', 'true');
+    titleRef.focus();
+  };
 
   const handleAddTask = () => {
-    if (!(taskNewTitle.trim() !== '')) return
+    if (!(taskNewTitle.trim() !== '')) return;
 
     addTask(id, {
       listId: id,
       id: new Date().getTime(),
       title: taskNewTitle,
       isDone: false,
-    })
-    taskNewTitle = ''
-  }
+    });
+    taskNewTitle = '';
+  };
 
   const sortableOptions: SortableOptions = {
     handle: '.task__handle',
@@ -79,29 +79,29 @@
     animation: 200,
     store: {
       get: () => {
-        const order = tasks.map((task) => `${task.id}`)
-        return order ? order : []
+        const order = tasks.map((task) => `${task.id}`);
+        return order ? order : [];
       },
       set: (sortable) => {
-        const order = sortable.toArray()
+        const order = sortable.toArray();
         const reorderedTasks = tasks.sort(
           (a, b) => order.indexOf(`${a.id}`) - order.indexOf(`${b.id}`)
-        )
-        const reorderedList = { id, title, tasks: reorderedTasks }
-        editList(id, reorderedList)
+        );
+        const reorderedList = { id, title, tasks: reorderedTasks };
+        editList(id, reorderedList);
       },
     },
-  }
+  };
 
   const sortable = (element: HTMLUListElement, options: SortableOptions) => {
-    const instance = Sortable.create(element, options)
+    const instance = Sortable.create(element, options);
 
     return {
       destroy() {
-        instance.destroy
+        instance.destroy;
       },
-    }
-  }
+    };
+  };
 </script>
 
 <section class="list" in:fly={{ y: 32, duration: 320, delay: 320 }} out:fade={{ duration: 320 }}>

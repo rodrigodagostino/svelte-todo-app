@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { todos } from './lib/stores/todos'
-  import { _ } from 'svelte-i18n'
+  import { todos } from './lib/stores/todos';
+  import { _ } from 'svelte-i18n';
 
-  import Navigation from './lib/components/Navigation.svelte'
-  import List from './lib/components/List.svelte'
-  import NoListsMessage from './lib/components/NoListsMessage.svelte'
-  import Notifications from './lib/components/Notifications.svelte'
-  import svelteLogo from './lib/assets/images/svelte-logo.svg'
+  import Navigation from './lib/components/Navigation.svelte';
+  import List from './lib/components/List.svelte';
+  import NoListsMessage from './lib/components/NoListsMessage.svelte';
+  import Notifications from './lib/components/Notifications.svelte';
+  import svelteLogo from './lib/assets/images/svelte-logo.svg';
 </script>
 
 <header class="app-header">

@@ -1,14 +1,14 @@
-import { writable, get } from 'svelte/store'
-import type { Notification } from '../components/Notification.svelte'
+import { writable, get } from 'svelte/store';
+import type { Notification } from '../components/Notification.svelte';
 
-export const notifications = writable<Notification[]>([])
+export const notifications = writable<Notification[]>([]);
 
 export const addNotification = (
   type: Notification['type'],
   currentItem: Notification['backup']
 ) => {
-  const notificationId = new Date().getTime()
-  const titleCasedType = type.charAt(0).toUpperCase() + type.slice(1)
+  const notificationId = new Date().getTime();
+  const titleCasedType = type.charAt(0).toUpperCase() + type.slice(1);
 
   notifications.update((currData) => [
     ...currData,
@@ -18,13 +18,13 @@ export const addNotification = (
       text: `${titleCasedType} <strong>${currentItem.title}</strong> was removed.`,
       backup: currentItem,
     },
-  ])
-  setTimeout(() => removeNotification(notificationId), 8000)
-}
+  ]);
+  setTimeout(() => removeNotification(notificationId), 8000);
+};
 
 export const removeNotification = (notificationId: Notification['id']) => {
-  const $notifications = get(notifications)
+  const $notifications = get(notifications);
   if ($notifications.some((notification) => notification.id === notificationId)) {
-    notifications.update((currData) => currData.filter((item) => item.id !== notificationId))
+    notifications.update((currData) => currData.filter((item) => item.id !== notificationId));
   }
-}
+};

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { fade, fly } from 'svelte/transition'
-  import { _ } from 'svelte-i18n'
+  import { fade, fly } from 'svelte/transition';
+  import { _ } from 'svelte-i18n';
 </script>
 
 <div
