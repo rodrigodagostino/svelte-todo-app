@@ -59,8 +59,8 @@
         class="navigation__item"
         class:is-active={list.id === $todos.selectedListId}
         data-id={list.id}
-        in:flyScale|local={{ y: 64, duration: 320 }}
-        out:fadeScale|local={{ duration: 320 }}
+        in:flyScale={{ y: 64, duration: 320 }}
+        out:fadeScale={{ duration: 320 }}
       >
         <button class="navigation__item-button" on:click={() => setSelectedList(list.id)}>
           <span class="navigation__item-handle">

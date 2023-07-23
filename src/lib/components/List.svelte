@@ -127,7 +127,7 @@
       {/if}
     </div>
     {#if tasks.length}
-      <div class="list__header-bottom" transition:fadeScale|local={{ duration: 320 }}>
+      <div class="list__header-bottom" transition:fadeScale={{ duration: 320 }}>
         <p class="list__subhead">{remainingTasks}</p>
       </div>
     {/if}
@@ -139,8 +139,8 @@
         <li
           class="list__task"
           data-id={task.id}
-          in:flyScale|local={{ y: 64, duration: 320 }}
-          out:fadeScale|local={{ duration: 320 }}
+          in:flyScale={{ y: 64, duration: 320 }}
+          out:fadeScale={{ duration: 320 }}
         >
           <Task listId={id} id={task.id} title={task.title} isDone={task.isDone} />
         </li>

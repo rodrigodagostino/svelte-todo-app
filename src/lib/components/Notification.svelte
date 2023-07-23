@@ -31,8 +31,8 @@
 <div
   id={`notification-${id}`}
   class="notification"
-  in:flyScale|local={{ y: 32, duration: 320 }}
-  out:fadeScale|local={{ duration: 320 }}
+  in:flyScale={{ y: 32, duration: 320 }}
+  out:fadeScale={{ duration: 320 }}
 >
   <div class="notification__inner">
     <p class="notification__text" role="status">
