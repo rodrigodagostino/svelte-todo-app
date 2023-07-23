@@ -4,7 +4,6 @@ module.exports = {
     browser: true,
     node: true,
   },
-  plugins: ['@typescript-eslint'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -27,7 +26,4 @@ module.exports = {
       },
     },
   ],
-  rules: {
-    '@typescript-eslint/no-inferrable-types': 'off',
-  },
 };
