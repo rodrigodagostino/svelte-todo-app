@@ -1,6 +1,17 @@
 import { cubicOut, quadOut } from 'svelte/easing';
+import type { EasingFunction, TransitionConfig } from 'svelte/transition';
 
-export function fadeScale(node, { delay = 0, duration = 400, easing = quadOut, opacity = 0 } = {}) {
+interface FadeScaleParams {
+  delay?: number;
+  duration?: number;
+  easing?: EasingFunction;
+  opacity?: number;
+}
+
+export function fadeScale(
+  node: HTMLElement,
+  { delay = 0, duration = 400, easing = quadOut, opacity = 0 }: FadeScaleParams = {}
+): TransitionConfig {
   const h = +node.offsetHeight;
   const style = getComputedStyle(node);
   const mt = parseInt(style.marginTop, 10);
@@ -18,10 +29,19 @@ export function fadeScale(node, { delay = 0, duration = 400, easing = quadOut, o
   };
 }
 
+interface FlyScaleParams {
+  delay?: number;
+  duration?: number;
+  easing?: EasingFunction;
+  x?: number;
+  y?: number;
+  opacity?: number;
+}
+
 export function flyScale(
-  node,
-  { delay = 0, duration = 400, easing = cubicOut, x = 0, y = 0, opacity = 0 } = {}
-) {
+  node: HTMLElement,
+  { delay = 0, duration = 400, easing = cubicOut, x = 0, y = 0, opacity = 0 }: FlyScaleParams = {}
+): TransitionConfig {
   const h = +node.offsetHeight;
   const style = getComputedStyle(node);
   const target_opacity = +style.opacity;
